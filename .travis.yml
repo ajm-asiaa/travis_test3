@@ -16,6 +16,7 @@ jobs:
         - ls
         - brew install cmake fftw 
         - brew install gcc # so that it can get gfortran
+        - brew link gcc
         - echo "Set up casacore"
         - git clone https://github.com/casacore/casacore.git
         - mkdir -p casacore/build && cd casacore/build 
