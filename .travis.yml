@@ -18,12 +18,15 @@ jobs:
         - brew update
         - brew install gcc
         - brew update
+        - brew upgrade
+        - brew update
         - echo "Install SOFA"
         - wget http://www.iausofa.org/2018_0130_F/sofa_f-20180130.tar.gz
         - tar xzf sofa_f-20180130.tar.gz
         - cd sofa/20180130/f77/src 
         - make 
-        - sudo cp libsofa.a /usr/lib/libsofa.a
+        - sudo cp libsofa.a /usr/local/lib/
+        - cd ..
         - echo "Set up casacore"
         - git clone https://github.com/casacore/casacore.git
         - mkdir -p casacore/build && cd casacore/build 
