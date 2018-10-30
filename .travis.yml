@@ -13,6 +13,7 @@ jobs:
     - stage: casacore
     install: true
     script: 
+      - ls
       - echo "Set up casacore"
       - git clone https://github.com/casacore/casacore.git
       - mkdir -p casacore/build && cd casacore/build 
