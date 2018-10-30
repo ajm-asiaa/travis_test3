@@ -11,15 +11,15 @@ osx_image: xcode9.4 # current default Travis CI xcode version
 jobs:
   include:
     - stage: casacore
-    install: true
-    script: 
-      - ls
-      - echo "Set up casacore"
-      - git clone https://github.com/casacore/casacore.git
-      - mkdir -p casacore/build && cd casacore/build 
-      - cmake .. -DUSE_FFTW3=ON -DUSE_HDF5=ON -DUSE_THREADS=ON -DUSE_OPENMP=ON
-      - make -j4
-      - sudo make install
-      - ls
-      - du -hs /usr/local/share/casacore
+      install: true
+      script: 
+        - ls
+        - echo "Set up casacore"
+        - git clone https://github.com/casacore/casacore.git
+        - mkdir -p casacore/build && cd casacore/build 
+        - cmake .. -DUSE_FFTW3=ON -DUSE_HDF5=ON -DUSE_THREADS=ON -DUSE_OPENMP=ON
+        - make -j4
+        - sudo make install
+        - ls
+        - du -hs /usr/local/share/casacore
 
