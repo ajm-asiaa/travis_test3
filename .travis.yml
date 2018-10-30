@@ -1,12 +1,14 @@
 language: cpp
 os: osx
-compiler: clang
+compiler:
+  - clang
+  - cpp
 #cache:
 #  directories:
 #  - $HOME/build/CARTAvis/CARTAvis-externals/ThirdParty
 #  - $HOME/build/CARTAvis/build
 
-osx_image: xcode9.4 # current default Travis CI xcode version
+osx_image: xcode9.2 # current default Travis CI xcode version
 
 jobs:
   include:
