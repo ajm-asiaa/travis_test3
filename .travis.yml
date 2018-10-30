@@ -1,8 +1,6 @@
 language: cpp
 os: osx
-compiler:
-  - clang
-  - cpp
+compiler: clang
 #cache:
 #  directories:
 #  - $HOME/build/CARTAvis/CARTAvis-externals/ThirdParty
