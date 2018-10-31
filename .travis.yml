@@ -30,7 +30,7 @@ jobs:
         - brew install cfitsio
         - brew install wcslib
         - brew install fftw
-        - brew install boost
+        - brew upgrade boost
         - brew install boost-python
         - brew install hdf5
         - ls -sort /usr/local/Cellar
