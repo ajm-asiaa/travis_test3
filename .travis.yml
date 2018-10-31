@@ -28,6 +28,8 @@ jobs:
         - sudo cp libsofa.a /usr/local/lib/
         - cd ..
         - brew install cfitsio
+        - brew install wcslib
+        - brew install fftw
         - brew install hdf5
         - ls -sort /usr/local/Cellar
         - echo "Set up casacore"
