@@ -30,12 +30,14 @@ jobs:
         - brew install cfitsio
         - brew install wcslib
         - brew install fftw
+        - brew install boost
+        - brew install boost-python
         - brew install hdf5
         - ls -sort /usr/local/Cellar
         - echo "Set up casacore"
         - git clone https://github.com/casacore/casacore.git
         - mkdir -p casacore/build && cd casacore/build 
-        - cmake .. -DUSE_FFTW3=ON -DUSE_HDF5=ON -DUSE_THREADS=ON -DUSE_OPENMP=ON
+        - cmake .. -DUSE_FFTW3=ON -DUSE_HDF5=ON -DUSE_THREADS=ON -DUSE_OPENMP=ON -DDATA_DIR="%CASAROOT%/data"
         - make -j4
         - sudo make install
         - ls
