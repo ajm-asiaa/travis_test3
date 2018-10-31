@@ -20,7 +20,7 @@ jobs:
         - brew link --overwrite gcc
 #        - brew upgrade
         - brew update
-        - brew install fftw numpy hdf5
+#        - brew install hdf5
         - which gfortran
         - echo "Install SOFA"
         - wget http://www.iausofa.org/2018_0130_F/sofa_f-20180130.tar.gz
@@ -36,11 +36,12 @@ jobs:
 #        - brew uninstall --ignore-dependencies boost
 #        - brew upgrade boost # upgrade boost from 1.61.0_1 -> 1.67.0_1
 #        - brew install boost --with-python
-#        - brew install boost-python
+        - brew install boost-python
 #        - brew install boost-python3
-#        - brew install boost-mpi
+##        - brew install boost-mpi
         - brew install boost-build
 #        - brew upgrade boost-python
+        - brew link --overwrite boost-build
         - ls -sort /usr/local/lib/libboost*
         - brew install hdf5
 #        - ls -sort /usr/local/Cellar
