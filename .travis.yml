@@ -30,8 +30,10 @@ jobs:
         - brew install cfitsio
         - brew install wcslib
         - brew install fftw
-        - brew upgrade boost
+        - brew upgrade boost # upgrade boost from 1.61.0_1 -> 1.67.0_1
         - brew install boost-python
+        - brew upgrade boost-python
+        - ls -sort /usr/local/lib/libboost*
         - brew install hdf5
         - ls -sort /usr/local/Cellar
         - echo "Set up casacore"
