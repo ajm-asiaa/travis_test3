@@ -19,8 +19,10 @@ jobs:
         - brew update
         - brew install gcc
         - brew update
+        - brew link gcc
 #        - brew upgrade
 #        - brew update
+        - brew install gfortran
         - echo "Install SOFA"
         - wget http://www.iausofa.org/2018_0130_F/sofa_f-20180130.tar.gz
         - tar xzf sofa_f-20180130.tar.gz
