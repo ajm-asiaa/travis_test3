@@ -39,15 +39,16 @@ jobs:
         - ls -sort /usr/local/lib/libboost*
         - brew install hdf5
         - ls -sort /usr/local/Cellar
-        - which cmake
-        - cmake --version
-        - brew install cmake
-        - brew upgrade cmake
+#        - which cmake
+#        - cmake --version
+#        - brew install cmake
+#        - brew upgrade cmake
+        - ls /usr/local/Cellar/boost-python
         - cmake --version
         - echo "Set up casacore"
         - git clone https://github.com/casacore/casacore.git
         - mkdir -p casacore/build && cd casacore/build 
-        - cmake .. -DUSE_FFTW3=ON -DUSE_HDF5=ON -DUSE_THREADS=ON -DUSE_OPENMP=ON -DDATA_DIR="%CASAROOT%/data" -DBOOST_ROOT=/usr/local
+        - cmake .. -DUSE_FFTW3=ON -DUSE_HDF5=ON -DUSE_THREADS=ON -DUSE_OPENMP=ON -DDATA_DIR="%CASAROOT%/data" -DBOOST_ROOT=/usr/local/Cellar/boost-python
         - make -j4
         - sudo make install
         - ls
