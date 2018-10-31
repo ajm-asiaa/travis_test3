@@ -36,6 +36,11 @@ jobs:
         - ls -sort /usr/local/lib/libboost*
         - brew install hdf5
         - ls -sort /usr/local/Cellar
+        - which cmake
+        - cmake --version
+        - brew install cmake
+        - brew upgrade cmake
+        - cmake --version
         - echo "Set up casacore"
         - git clone https://github.com/casacore/casacore.git
         - mkdir -p casacore/build && cd casacore/build 
