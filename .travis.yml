@@ -1,6 +1,8 @@
 language: cpp
 os: osx
-compiler: gcc
+compiler: clang
+env: PYTHONVERSION=2.7
+
 #cache:
 #  directories:
 #  - $HOME/build/CARTAvis/CARTAvis-externals/ThirdParty
@@ -54,7 +56,7 @@ jobs:
         - echo "Set up casacore"
         - git clone https://github.com/casacore/casacore.git
         - mkdir -p casacore/build && cd casacore/build 
-        - cmake .. -DUSE_FFTW3=ON -DUSE_HDF5=ON -DUSE_THREADS=ON -DUSE_OPENMP=ON -DDATA_DIR="%CASAROOT%/data" #-DBOOST_ROOT=/usr/local/Cellar/boost-python
+        - cmake .. -DUSE_FFTW3=ON -DUSE_HDF5=ON -DUSE_THREADS=ON -DUSE_OPENMP=ON -DDATA_DIR="%CASAROOT%/data" -DBUILD_PYTHON=On -DBUILD_PYTHON3=Off \ #-DBOOST_ROOT=/usr/local/Cellar/boost-python
         - make -j4
         - sudo make install
         - ls
