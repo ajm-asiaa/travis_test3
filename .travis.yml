@@ -22,7 +22,6 @@ jobs:
         - make -j 4
         - sudo cp libsofa.a /usr/local/lib/
         - cd ~
-
         - echo "Install casacore"
         - git clone https://github.com/casacore/casacore.git
         - cd casacore && mkdir build && cd build 
@@ -52,5 +51,5 @@ jobs:
         - cmake ..
         - make
         - make install
-        - ls
+        - ls -sort
 
