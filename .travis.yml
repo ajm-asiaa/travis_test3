@@ -11,7 +11,7 @@ cache:
   - /usr/local/Cellar
 
 global:
-  - CI_NODE_TOTAL=2
+  - CI_NODE_TOTAL=2 # speed up the build process so the casacore stage can finish in time
 
 jobs:
   include:
@@ -44,12 +44,12 @@ jobs:
       script:
         - pwd
         - ls -sort
-        - brew install openssl tbb protobuf
+        - brew install openssl tbb fmt protobuf
         - sudo rm /usr/local/include/c++
         - brew install gcc 
         - git clone https://github.com/uNetworking/uWebSockets.git
         - cd uWebsockets
-        - ls -sort
+        - git checkout c7aa984 # going back to the old non-'clang'-only Makefile
         - make
         - sudo make install
         - cd ..
