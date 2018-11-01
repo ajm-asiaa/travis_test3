@@ -34,20 +34,22 @@ jobs:
       install: true
       script:
         - pwd
-        - brew install openssl tbb 
+        - ls -sort
+        - brew install openssl tbb gcc 
         - git clone https://github.com/uNetworking/uWebSockets.git
         - cd uWebsockets
+        - ls -sort
         - make
         - sudo make install
-        - cd ~
+        - cd ..
         - git clone https://github.com/LLNL/zfp.git
         - cd zfp && mkdir build && cd build
         - cmake ..
         - make
         - sudo make install
-        - cd ~
+        - cd ../..
         - echo "Install carta-backend"
-        - sed -i 's/hdf5_serial/hdf5/g' CMakeLists.txt # Fix for Mac hdf5 serial filename
+        - sed -i '' 's/hdf5_serial/hdf5/g' CMakeLists.txt # Fix for Mac hdf5 serial filename
         - mkdir build && cd build
         - cmake ..
         - make
