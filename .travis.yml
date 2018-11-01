@@ -5,6 +5,11 @@ compiler: clang
 #osx_image: xcode7.3 # current default Travis CI xcode version
 osx_image: xcode10
 
+cache:
+  directories:
+  - /usr/local/include/casacore
+  - /usr/local/Cellar
+
 jobs:
   include:
     - stage: casacore
