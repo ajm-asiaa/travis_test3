@@ -21,6 +21,7 @@ jobs:
         - ls
         - sudo rm /usr/local/include/c++
         - brew install gcc
+        - cat /proc/cpuinfo
 #        - brew link --overwrite gcc
         - which gfortran
         - brew install cfitsio wcslib fftw boost-python hdf5
@@ -36,7 +37,7 @@ jobs:
         - cd casacore && mkdir build && cd build 
         - ln -s /usr/local/Cellar/boost-python/1.67.0/lib/libboost_python27-mt.dylib /usr/local/lib/libboost_python-mt.dylib  #Fix so that cmake can find the boost-python library file
         - cmake .. -DUSE_FFTW3=ON -DUSE_HDF5=ON -DUSE_THREADS=ON -DUSE_OPENMP=ON -DDATA_DIR="%CASAROOT%/data"
-        - make -j4
+        - make -j 2
         - sudo make install
         - cd ~
     - stage: carta-backend
