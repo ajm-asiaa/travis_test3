@@ -25,13 +25,14 @@ jobs:
         - echo "Install casacore"
         - git clone https://github.com/casacore/casacore.git
         - cd casacore && mkdir build && cd build 
-        # Fix so that cmake can find the boost-python library file
-        - ln -s /usr/local/Cellar/boost-python/1.67.0/lib/libboost_python27-mt.dylib /usr/local/lib/libboost_python-mt.dylib
+        - ln -s /usr/local/Cellar/boost-python/1.67.0/lib/libboost_python27-mt.dylib /usr/local/lib/libboost_python-mt.dylib  #Fix so that cmake can find the boost-python library file
         - cmake .. -DUSE_FFTW3=ON -DUSE_HDF5=ON -DUSE_THREADS=ON -DUSE_OPENMP=ON -DDATA_DIR="%CASAROOT%/data"
         - make -j4
         - sudo make install
         - cd ~
     - stage: carta-backend
+      install: true
+      script:
         - pwd
         - brew install openssl tbb 
         - git clone https://github.com/uNetworking/uWebSockets.git
