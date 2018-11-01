@@ -1,12 +1,6 @@
 language: cpp
 os: osx
 compiler: clang
-env: PYTHONVERSION=2.7
-
-#cache:
-#  directories:
-#  - $HOME/build/CARTAvis/CARTAvis-externals/ThirdParty
-#  - $HOME/build/CARTAvis/build
 
 #osx_image: xcode7.3 # current default Travis CI xcode version
 osx_image: xcode10
@@ -18,12 +12,9 @@ jobs:
       script: 
         - ls
         - brew install gcc
-#        - brew update
         - brew link --overwrite gcc
-#        - brew upgrade
-#        - brew update
-#        - brew install hdf5
         - which gfortran
+        - brew install cfitsio wcslib fftw boost-python hdf5
         - echo "Install SOFA"
         - wget http://www.iausofa.org/2018_0130_F/sofa_f-20180130.tar.gz
         - tar xzf sofa_f-20180130.tar.gz
@@ -31,34 +22,35 @@ jobs:
         - make -j 4
         - sudo cp libsofa.a /usr/local/lib/
         - cd ~
-        - pwd
-        - brew install cfitsio wcslib fftw boost-python hdf5
-#        - brew remove boost
-#        - brew uninstall --ignore-dependencies boost
-#        - brew upgrade boost # upgrade boost from 1.61.0_1 -> 1.67.0_1
-#        - brew install boost --with-python
-#        - brew install boost-python
-#        - brew install boost-python3
-##        - brew install boost-mpi
-#        - brew install boost-build
-#        - brew upgrade boost-python
-#        - brew link --overwrite boost-build
-        - ln -s /usr/local/Cellar/boost-python/1.67.0/lib/libboost_python27-mt.dylib /usr/local/lib/libboost_python-mt.dylib
-#        - ls -sort /usr/local/lib/libboost*
-#        - brew install hdf5
-#        - ls -sort /usr/local/Cellar
-#        - which cmake
-#        - cmake --version
-#        - brew install cmake
-#        - brew upgrade cmake
-#        - ls /usr/local/Cellar/boost-python
-#        - cmake --version
-        - echo "Set up casacore"
+
+        - echo "Install casacore"
         - git clone https://github.com/casacore/casacore.git
-        - mkdir -p casacore/build && cd casacore/build 
-        - cmake .. -DUSE_FFTW3=ON -DUSE_HDF5=ON -DUSE_THREADS=ON -DUSE_OPENMP=ON -DDATA_DIR="%CASAROOT%/data" #-DBUILD_PYTHON=On -DBUILD_PYTHON3=Off #-DBOOST_ROOT=/usr/local/Cellar/boost-python
+        - cd casacore && mkdir build && cd build 
+        # Fix so that cmake can find the boost-python library file
+        - ln -s /usr/local/Cellar/boost-python/1.67.0/lib/libboost_python27-mt.dylib /usr/local/lib/libboost_python-mt.dylib
+        - cmake .. -DUSE_FFTW3=ON -DUSE_HDF5=ON -DUSE_THREADS=ON -DUSE_OPENMP=ON -DDATA_DIR="%CASAROOT%/data"
         - make -j4
         - sudo make install
+        - cd ~
+   - stage: carta-backend
+        - pwd
+        - brew install openssl tbb 
+        - git clone https://github.com/uNetworking/uWebSockets.git
+        - cd uWebsockets
+        - make
+        - sudo make install
+        - cd ~
+        - git clone https://github.com/LLNL/zfp.git
+        - cd zfp && mkdir build && cd build
+        - cmake ..
+        - make
+        - sudo make install
+        - cd ~
+        - echo "Install carta-backend"
+        - sed -i 's/hdf5_serial/hdf5/g' CMakeLists.txt # Fix for Mac hdf5 serial filename
+        - mkdir build && cd build
+        - cmake ..
+        - make
+        - make install
         - ls
-        - du -hs /usr/local/share/casacore
 
