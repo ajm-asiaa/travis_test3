@@ -21,7 +21,6 @@ jobs:
         - ls
         - sudo rm /usr/local/include/c++
         - brew install gcc
-        - cat /proc/cpuinfo
 #        - brew link --overwrite gcc
         - which gfortran
         - brew install cfitsio wcslib fftw boost-python hdf5
