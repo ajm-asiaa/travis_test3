@@ -16,8 +16,9 @@ jobs:
       install: true
       script: 
         - ls
+        - sudo rm /usr/local/include/c++
         - brew install gcc
-        - brew link --overwrite gcc
+#        - brew link --overwrite gcc
         - which gfortran
         - brew install cfitsio wcslib fftw boost-python hdf5
         - echo "Install SOFA"
@@ -40,7 +41,9 @@ jobs:
       script:
         - pwd
         - ls -sort
-        - brew install openssl tbb gcc 
+        - brew install openssl tbb protobuf
+        - sudo rm /usr/local/include/c++
+        - brew install gcc 
         - git clone https://github.com/uNetworking/uWebSockets.git
         - cd uWebsockets
         - ls -sort
