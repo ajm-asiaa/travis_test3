@@ -47,7 +47,7 @@ jobs:
         - brew install openssl tbb fmt protobuf
 #        - sudo rm /usr/local/include/c++
 #        - brew install gcc 
-        - git clone git clone https://github.com/libuv/libuv.git
+        - git clone https://github.com/libuv/libuv.git
         - cd libuv
         - sh autogen.sh
         - ./configure
