@@ -92,6 +92,6 @@ jobs:
         - mkdir build && cd build
         - cmake -DCMAKE_CXX_FLAGS="-I /usr/local/Cellar/openssl\@1.1/1.1.1/include" -DCMAKE_CXX_STANDARD_LIBRARIES="-L /usr/local/Cellar/fmt/5.1.0/lib -L /usr/local/Cellar/hdf5/1.10.3/lib -L /usr/local/lib -L /usr/local/Cellar/openssl\@1.1/1.1.1/lib" ..
         - make
-        - make install
         - ls -sort
+        - ./hdf5_image_viewer
 
