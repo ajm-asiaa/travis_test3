@@ -46,8 +46,9 @@ jobs:
       script:
         - pwd
         - ls -sort
-        - cd casacore/build
+        - cd $HOME/casacore/build
         - sudo make install
+        - cd ~
         - sudo rm /usr/local/include/c++
         - brew install gcc
         - brew install openssl tbb fmt protobuf hdf5
