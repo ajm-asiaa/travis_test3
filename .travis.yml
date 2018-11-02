@@ -7,8 +7,9 @@ osx_image: xcode10
 
 cache:
   directories:
-  - /usr/local/include/casacore
-  - /usr/local/Cellar
+#  - /usr/local/include/casacore
+#  - /usr/local/Cellar
+  - $HOME/casacore
 
 global:
   - CI_NODE_TOTAL=2 # speed up the build process so the casacore stage can finish in time
@@ -36,13 +37,15 @@ jobs:
         - ln -s /usr/local/Cellar/boost-python/1.67.0/lib/libboost_python27-mt.dylib /usr/local/lib/libboost_python-mt.dylib  #Fix so that cmake can find the boost-python library file
         - cmake .. -DUSE_FFTW3=ON -DUSE_HDF5=ON -DUSE_THREADS=ON -DUSE_OPENMP=ON -DDATA_DIR="%CASAROOT%/data"
         - make -j 2
-        - sudo make install
+#        - sudo make install
         - cd ~
     - stage: carta-backend
       install: true
       script:
         - pwd
         - ls -sort
+        - cd casacore/build
+        - sudo make install
         - sudo rm /usr/local/include/c++
         - brew install gcc
         - brew install openssl tbb fmt protobuf hdf5
