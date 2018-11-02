@@ -43,9 +43,10 @@ jobs:
       script:
         - pwd
         - ls -sort
+        - brew install openssl tbb fmt protobuf hdf5
         - ls -sort /usr/local/Cellar/openssl/*
         - ls -sort /usr/local/Cellar/openssl*
-        - brew install openssl tbb fmt protobuf hdf5
+        - ls -sort /usr/local/Cellar/openssl@1.1/*
         - git clone https://github.com/libuv/libuv.git
         - cd libuv
         - sh autogen.sh
