@@ -10,39 +10,41 @@ cache:
 #  - /usr/local/include/casacore
 #  - /usr/local/Cellar
   - $HOME/casacore
-  - /usr/local/Cellar/openssl
-  - /usr/local/opt/openssl
-  - /usr/local/Cellar/gcc
-  - /usr/local/opt/gcc
-  - /usr/local/Cellar/hdf5
-  - /usr/local/opt/hdf5
-  - /usr/local/Cellar/protobuf
-  - /usr/local/opt/protobuf
-  - /usr/local/Cellar/tbb
-  - /usr/local/opt/tbb  
-  - /usr/local/Cellar/fmt
-  - /usr/local/opt/fmt
-  - /usr/local/Cellar/cfitsio
-  - /usr/local/opt/cfitsio  
-  - /usr/local/Cellar/wcslib
-  - /usr/local/opt/wcslib
-  - /usr/local/Cellar/fftw
-  - /usr/local/opt/fftw
-  - /usr/local/Cellar/boost-python
-  - /usr/local/opt/boost-python
+#  - /usr/local/Cellar/openssl
+#  - /usr/local/opt/openssl
+#  - /usr/local/Cellar/gcc
+#  - /usr/local/opt/gcc
+#  - /usr/local/Cellar/hdf5
+#  - /usr/local/opt/hdf5
+#  - /usr/local/Cellar/protobuf
+#  - /usr/local/opt/protobuf
+#  - /usr/local/Cellar/tbb
+#  - /usr/local/opt/tbb  
+#  - /usr/local/Cellar/fmt
+#  - /usr/local/opt/fmt
+#  - /usr/local/Cellar/cfitsio
+#  - /usr/local/opt/cfitsio  
+#  - /usr/local/Cellar/wcslib
+#  - /usr/local/opt/wcslib
+#  - /usr/local/Cellar/fftw
+#  - /usr/local/opt/fftw
+#  - /usr/local/Cellar/boost-python
+#  - /usr/local/opt/boost-python
 
 before_install:
-  - test -d /usr/local/opt/openssl/lib  || { rmdir /usr/local/opt/openssl; brew install openssl; }
-  - test -d /usr/local/opt/gcc/lib || { rmdir /usr/local/opt/gcc; sudo rm /usr/local/include/c++ && brew install gcc; }
-  - test -d /usr/local/opt/hdf5/lib    || { rmdir /usr/local/opt/hdf5; brew install hdf5; }
-  - test -d /usr/local/opt/protobuf/lib  || { rmdir /usr/local/opt/protobuf; brew install protobuf; }
-  - test -d /usr/local/opt/tbb/lib || { rmdir /usr/local/opt/tbb; brew install tbb; }
-  - test -d /usr/local/opt/fmt/lib    || { rmdir /usr/local/opt/fmt; brew install fmt; }
-  - test -d /usr/local/opt/cfitsio/lib  || { rmdir /usr/local/opt/cfitsio; brew install cfitsio; }
-  - test -d /usr/local/opt/wcslib/lib || { rmdir /usr/local/opt/wcslib; brew install wcslib; }
-  - test -d /usr/local/opt/fftw/lib    || { rmdir /usr/local/opt/fftw; brew install fftw; }
-  - test -d /usr/local/opt/boost-python/lib || { rmdir /usr/local/opt/boost-python; brew install boost-python; }
-
+#  - test -d /usr/local/opt/openssl/lib  || { rmdir /usr/local/opt/openssl; brew install openssl; }
+#  - test -d /usr/local/opt/gcc/lib || { rmdir /usr/local/opt/gcc; sudo rm /usr/local/include/c++ && brew install gcc; }
+#  - test -d /usr/local/opt/hdf5/lib    || { rmdir /usr/local/opt/hdf5; brew install hdf5; }
+#  - test -d /usr/local/opt/protobuf/lib  || { rmdir /usr/local/opt/protobuf; brew install protobuf; }
+#  - test -d /usr/local/opt/tbb/lib || { rmdir /usr/local/opt/tbb; brew install tbb; }
+#  - test -d /usr/local/opt/fmt/lib    || { rmdir /usr/local/opt/fmt; brew install fmt; }
+#  - test -d /usr/local/opt/cfitsio/lib  || { rmdir /usr/local/opt/cfitsio; brew install cfitsio; }
+#  - test -d /usr/local/opt/wcslib/lib || { rmdir /usr/local/opt/wcslib; brew install wcslib; }
+#  - test -d /usr/local/opt/fftw/lib    || { rmdir /usr/local/opt/fftw; brew install fftw; }
+#  - test -d /usr/local/opt/boost-python/lib || { rmdir /usr/local/opt/boost-python; brew install boost-python; }
+   - sudo rm /usr/local/include/c++
+   - brew install gcc
+   - brew install openssl tbb fmt protobuf cfitsio wcslib fftw boost-python hdf5
 
 global:
   - CI_NODE_TOTAL=2 # speed up the build process so the casacore stage can finish in time
