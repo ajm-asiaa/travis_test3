@@ -45,9 +45,9 @@ before_install:
    - sudo rm /usr/local/include/c++
    - brew install gcc
    - brew install openssl tbb fmt protobuf cfitsio wcslib fftw boost-python hdf5
-   - echo "Install casacore"
-   - test -d $HOME/casacore || { $TRAVIS_BUILD_DIR/scripts/ci_mac_casacore.sh; }
-   - ls -sort
+#   - echo "Install casacore"
+#   - test -d $HOME/casacore || { $TRAVIS_BUILD_DIR/scripts/ci_mac_casacore.sh; }
+#   - ls -sort
 
 global:
   - CI_NODE_TOTAL=2 # speed up the build process so the casacore stage can finish in time
@@ -59,7 +59,10 @@ jobs:
       script:
         - echo $HOME 
         - ls
-        - pwd
+        - cd $HOME
+        - ls
+        - if [ -e "$HOME/casacore"]; then echo "casacore cache exists"; else echo "building casacore";$TRAVIS_BUILD_DIR/scripts/ci_mac_casacore.sh; fi
+        - ls -sort
 #        - sudo rm /usr/local/include/c++
 #        - brew install gcc
         - which gfortran
