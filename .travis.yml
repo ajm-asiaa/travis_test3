@@ -10,42 +10,75 @@ cache:
 #  - /usr/local/include/casacore
 #  - /usr/local/Cellar
   - $HOME/casacore
+  - /usr/local/Cellar/openssl
+  - /usr/local/opt/openssl
+  - /usr/local/Cellar/gcc
+  - /usr/local/opt/gcc
+  - /usr/local/Cellar/hdf5
+  - /usr/local/opt/hdf5
+  - /usr/local/Cellar/protobuf
+  - /usr/local/opt/protobuf
+  - /usr/local/Cellar/tbb
+  - /usr/local/opt/tbb  
+  - /usr/local/Cellar/fmt
+  - /usr/local/opt/fmt
+  - /usr/local/Cellar/cfitsio
+  - /usr/local/opt/cfitsio  
+  - /usr/local/Cellar/wcslib
+  - /usr/local/opt/wcslib
+  - /usr/local/Cellar/fftw
+  - /usr/local/opt/fftw
+  - /usr/local/Cellar/boost-python
+  - /usr/local/opt/boost-python
+
+before_install:
+  - test -d /usr/local/opt/openssl/lib  || { rmdir /usr/local/opt/openssl; brew install openssl; }
+  - test -d /usr/local/opt/gcc/lib || { rmdir /usr/local/opt/gcc; brew install gcc; }
+  - test -d /usr/local/opt/hdf5/lib    || { rmdir /usr/local/opt/hdf5; brew install hdf5; }
+  - test -d /usr/local/opt/protobuf/lib  || { rmdir /usr/local/opt/protobuf; brew install protobuf; }
+  - test -d /usr/local/opt/tbb/lib || { rmdir /usr/local/opt/tbb; brew install tbb; }
+  - test -d /usr/local/opt/fmt/lib    || { rmdir /usr/local/opt/fmt; brew install fmt; }
+  - test -d /usr/local/opt/cfitsio/lib  || { rmdir /usr/local/opt/cfitsio; brew install cfitsio; }
+  - test -d /usr/local/opt/wcslib/lib || { rmdir /usr/local/opt/wcslib; brew install wcslib; }
+  - test -d /usr/local/opt/fftw/lib    || { rmdir /usr/local/opt/fftw; brew install fftw; }
+  - test -d /usr/local/opt/boost-python/lib || { rmdir /usr/local/opt/boost-python; brew install boost-python; }
+
 
 global:
   - CI_NODE_TOTAL=2 # speed up the build process so the casacore stage can finish in time
 
 jobs:
   include:
-#    - stage: casacore
-#      install: true
-#      script:
-#        - echo $HOME 
-#        - ls
-#        - pwd
+    - stage: casacore
+      install: true
+      script:
+        - echo $HOME 
+        - ls
+        - pwd
 #        - sudo rm /usr/local/include/c++
 #        - brew install gcc
-#        - which gfortran
+        - which gfortran
 #        - brew install cfitsio wcslib fftw boost-python hdf5
-#        - echo "Install SOFA"
-#        - wget http://www.iausofa.org/2018_0130_F/sofa_f-20180130.tar.gz
-#        - tar xzf sofa_f-20180130.tar.gz
-#        - cd sofa/20180130/f77/src 
-#        - make -j 2
-#        - sudo cp libsofa.a /usr/local/lib/
-#        - cd ~
-#        - pwd
-#        - echo "Install casacore"
-#        - git clone https://github.com/casacore/casacore.git
-#        - mv casacore casacore-src
-#        - cd casacore-src && mkdir build && cd build 
-#        - ln -s /usr/local/Cellar/boost-python/1.67.0/lib/libboost_python27-mt.dylib /usr/local/lib/libboost_python-mt.dylib  #Fix so that cmake can find the boost-python library file
-#        - cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/casacore -DUSE_FFTW3=ON -DUSE_HDF5=ON -DUSE_THREADS=ON -DUSE_OPENMP=ON -DDATA_DIR="%CASAROOT%/data"
-#        - make -j 2
-#        - pwd
-#        - sudo make install
-#        - cd $HOME/casacore
-#        - ls -sort
-#        - cd ~
+        - echo "Install SOFA"
+        - wget http://www.iausofa.org/2018_0130_F/sofa_f-20180130.tar.gz
+        - tar xzf sofa_f-20180130.tar.gz
+        - cd sofa/20180130/f77/src 
+        - make -j 2
+        - sudo cp libsofa.a /usr/local/lib/
+        - cd ~
+        - pwd
+        - echo "Install casacore"
+        - git clone https://github.com/casacore/casacore.git
+        - mv casacore casacore-src
+        - cd casacore-src && mkdir build && cd build 
+        - ln -s /usr/local/Cellar/boost-python/1.67.0/lib/libboost_python27-mt.dylib /usr/local/lib/libboost_python-mt.dylib  #Fix so that cmake can find the boost-python library file
+        - cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/casacore -DUSE_FFTW3=ON -DUSE_HDF5=ON -DUSE_THREADS=ON -DUSE_OPENMP=ON -DDATA_DIR="%CASAROOT%/data"
+        - make -j 2
+        - pwd
+        - sudo make install
+        - cd $HOME/casacore
+        - ls -sort
+        - cd ~
     - stage: carta-backend
       install: true
       script:
@@ -54,10 +87,9 @@ jobs:
         - sudo cp -r $HOME/casacore/include/casacore /usr/local/include/
 # install pacakges again
         - sudo rm /usr/local/include/c++
-        - brew install gcc
-        - brew install openssl tbb fmt protobuf hdf5
-        - brew install cfitsio wcslib fftw boost-python
-#        - ln -s /usr/local/Cellar/boost-python/1.67.0/lib/libboost_python27-mt.dylib /usr/local/lib/libboost_python-mt.dylib
+#        - brew install gcc
+#        - brew install openssl tbb fmt protobuf hdf5
+#        - brew install cfitsio wcslib fftw boost-python
         - cd ~
         - ls -sort
         - ls /usr/local/Cellar/openssl@1.1/
