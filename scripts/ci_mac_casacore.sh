@@ -1,5 +1,12 @@
 #!/bin/bash
 
+wget http://www.iausofa.org/2018_0130_F/sofa_f-20180130.tar.gz
+tar xzf sofa_f-20180130.tar.gz
+cd sofa/20180130/f77/src
+make -j 2
+sudo cp libsofa.a /usr/local/lib/
+cd $HOME
+
 git clone https://github.com/casacore/casacore.git
 
 mv casacore casacore-src
