@@ -1,8 +1,6 @@
 language: cpp
 os: osx
 compiler: clang
-
-#osx_image: xcode7.3 # current default Travis CI xcode version
 osx_image: xcode10
 
 cache:
@@ -19,54 +17,23 @@ global:
 
 jobs:
   include:
-    - stage: casacore
+    - stage: build casacore
       install: true
       script:
-        - echo $HOME 
-        - ls
         - cd $HOME
         - ls
         - if [ -e "$HOME/casacore" ]; then echo "casacore cache exists"; else echo "building casacore" && $TRAVIS_BUILD_DIR/scripts/ci_mac_casacore.sh; fi
         - ls -sort
-#        - sudo rm /usr/local/include/c++
-#        - brew install gcc
-        - which gfortran
-#        - brew install cfitsio wcslib fftw boost-python hdf5
-        - echo "Install SOFA"
-#        - wget http://www.iausofa.org/2018_0130_F/sofa_f-20180130.tar.gz
-#        - tar xzf sofa_f-20180130.tar.gz
-#        - cd sofa/20180130/f77/src 
-#        - make -j 2
-#        - sudo cp libsofa.a /usr/local/lib/
-#        - cd ~
-#        - pwd
-        - echo "Install casacore"
-#        - git clone https://github.com/casacore/casacore.git
-#        - mv casacore casacore-src
-#        - cd casacore-src && mkdir build && cd build 
-#        - ln -s /usr/local/Cellar/boost-python/1.67.0/lib/libboost_python27-mt.dylib /usr/local/lib/libboost_python-mt.dylib  #Fix so that cmake can find the boost-python library file
-#        - cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/casacore -DUSE_FFTW3=ON -DUSE_HDF5=ON -DUSE_THREADS=ON -DUSE_OPENMP=ON -DDATA_DIR="%CASAROOT%/data"
-#        - make -j 2
-#        - pwd
-#        - sudo make install
-#        - cd $HOME/casacore
-#        - ls -sort
-#        - cd ~
-    - stage: carta-backend
+
+    - stage: build carta-backend
       install: true
       script:
-# copy cached casacore to default system location
+        # copy cached casacore to default system location
         - sudo cp -r $HOME/casacore/lib/* /usr/local/lib/
         - sudo cp -r $HOME/casacore/include/casacore /usr/local/include/
-# install pacakges again
-#        - sudo rm /usr/local/include/c++
-#        - brew install gcc
-#        - brew install openssl tbb fmt protobuf hdf5
-#        - brew install cfitsio wcslib fftw boost-python
-        - cd ~
-        - ls -sort
-        - ls /usr/local/Cellar/openssl@1.1/
-# echo install libuv
+        - cd $HOME
+
+         # echo install libuv
         - git clone https://github.com/libuv/libuv.git
         - cd libuv
         - sh autogen.sh
@@ -74,31 +41,50 @@ jobs:
         - make -j 2
         - sudo make install
         - cd ..
-# install uWebsockets
+
+        # install uWebsockets
         - git clone https://github.com/uNetworking/uWebSockets.git
         - cd uWebsockets
-        - git checkout c7aa984 # going back to the old non-'clang'-only Makefile
+        - git checkout c7aa984 # changing to the old non-'clang'-only Makefile
         - make
         - sudo make install
         - cd ..
-# install zfp
+
+        # install zfp
         - git clone https://github.com/LLNL/zfp.git
         - cd zfp && mkdir build && cd build
         - cmake ..
         - make
         - sudo make install
         - cd ../..
-        - pwd
-        - ls -sort
-# build carta-backend
+
+        # build carta-backend
         - echo "Building carta-backend" 
         - cd $TRAVIS_BUILD_DIR
         - git submodule init && git submodule update
         - sed -i '' 's/hdf5_serial/hdf5/g' CMakeLists.txt # fix for Mac hdf5 filename
         - sed -i '' 's/target_link_libraries(hdf5_image_viewer/target_link_libraries(hdf5_image_viewer uv/g' CMakeLists.txt # fix to find uv
         - mkdir build && cd build
-        - cmake -DCMAKE_CXX_FLAGS="-I /usr/local/Cellar/openssl\@1.1/1.1.1/include" -DCMAKE_CXX_STANDARD_LIBRARIES="-L /usr/local/Cellar/fmt/5.1.0/lib -L /usr/local/Cellar/hdf5/1.10.3/lib -L /usr/local/lib -L /usr/local/Cellar/openssl\@1.1/1.1.1/lib" .. # Might break later when Travis changes version numbers i.e. if default openssl changes to 1.1.2.
+        - cmake -DCMAKE_CXX_FLAGS="-I /usr/local/Cellar/openssl\@1.1/1.1.1/include" -DCMAKE_CXX_STANDARD_LIBRARIES="-L /usr/local/Cellar/fmt/5.1.0/lib -L /usr/local/Cellar/hdf5/1.10.3/lib -L /usr/local/lib -L /usr/local/Cellar/openssl\@1.1/1.1.1/lib" .. # Might break later when Travis changes version numbers i.e. if the current default openssl 1.1.1 changes to 1.1.2.
         - make
         - ls -sort
         - otool -L hdf5_image_viewer
+
+        - echo "Package carta-backend"
+
+        # install macdylibbundler
+        - git clone https://github.com/auriamg/macdylibbundler.git
+        - cd macdylibbundler
+        - make
+        - sudo mac install
+        - cd ..
+
+        - mkdir -p package/bin && cd package/bin && cp ../../hdf5_image_viewer .
+        - cp /usr/local/lib/libuWS.dylib .
+        - dylibbundler -od -of -b -d ../libs -x hdf5_image_viewer < $TRAVIS_BUILD_DIR/scripts/keyboard_input.txt
+        - rm libuWS.dylib
+        - otool -L hdf5_image_viewer
+        - ls -sort ../libs/*
+
+
 
