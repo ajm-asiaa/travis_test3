@@ -33,7 +33,7 @@ cache:
 
 before_install:
   - test -d /usr/local/opt/openssl/lib  || { rmdir /usr/local/opt/openssl; brew install openssl; }
-  - test -d /usr/local/opt/gcc/lib || { rmdir /usr/local/opt/gcc; brew install gcc; }
+  - test -d /usr/local/opt/gcc/lib || { rmdir /usr/local/opt/gcc; sudo rm /usr/local/include/c++ && brew install gcc; }
   - test -d /usr/local/opt/hdf5/lib    || { rmdir /usr/local/opt/hdf5; brew install hdf5; }
   - test -d /usr/local/opt/protobuf/lib  || { rmdir /usr/local/opt/protobuf; brew install protobuf; }
   - test -d /usr/local/opt/tbb/lib || { rmdir /usr/local/opt/tbb; brew install tbb; }
