@@ -76,7 +76,7 @@ jobs:
         - git clone https://github.com/auriamg/macdylibbundler.git
         - cd macdylibbundler
         - make
-        - sudo mac install
+        - sudo make install
         - cd ..
 
         - mkdir -p package/bin && cd package/bin && cp ../../hdf5_image_viewer .
@@ -85,6 +85,11 @@ jobs:
         - rm libuWS.dylib
         - otool -L hdf5_image_viewer
         - ls -sort ../libs/*
-
-
+        - cd ../..
+        - echo $TRAVIS_COMMIT
+        - echo $TRAVIS_JOB_ID
+        - echo $TRAVIS_JOB_NUMBER
+        - mv package package_$TRAVIS_JOB_NUMBER
+        - tar -czvf package_$TRAVIS_JOB_NUMBER.tar.gz package_TRAVIS_JOB_NUMBER
+        - ls -sort
 
