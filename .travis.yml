@@ -53,15 +53,7 @@ before_install:
    - sudo cp libsofa.a /usr/local/lib/
    - cd ~
    - echo "Install casacore"
-   - git clone https://github.com/casacore/casacore.git
-   - mv casacore casacore-src
-   - cd casacore-src && mkdir build && cd build
-   - ln -s /usr/local/Cellar/boost-python/1.67.0/lib/libboost_python27-mt.dylib /usr/local/lib/libboost_python-mt.dylib  #Fix so that cmake can find the boost-python library file
-   - cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/casacore -DUSE_FFTW3=ON -DUSE_HDF5=ON -DUSE_THREADS=ON -DUSE_OPENMP=ON -DDATA_DIR="%CASAROOT%/data"
-   - make -j 2
-   - pwd
-   - sudo make install
-   - cd $HOME/casacore
+   - test -d $HOME/casacore || { $TRAVIS_BUILD_DIR/scripts/ci_mac_casacore.sh; }
    - ls -sort
 
 global:
