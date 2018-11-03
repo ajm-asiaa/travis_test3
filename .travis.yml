@@ -49,20 +49,19 @@ jobs:
     - stage: carta-backend
       install: true
       script:
-        - pwd
-        - ls -sort
+# copy cached casacore to default system location
         - sudo cp -r $HOME/casacore/lib/* /usr/local/lib/
         - sudo cp -r $HOME/casacore/include/casacore /usr/local/include/
+# install pacakges again
         - sudo rm /usr/local/include/c++
         - brew install gcc
         - brew install openssl tbb fmt protobuf hdf5
         - brew install cfitsio wcslib fftw boost-python
-        - ln -s /usr/local/Cellar/boost-python/1.67.0/lib/libboost_python27-mt.dylib /usr/local/lib/libboost_python-mt.dylib
-#        - cd $HOME/casacore/build
-#        - sudo make install
+#        - ln -s /usr/local/Cellar/boost-python/1.67.0/lib/libboost_python27-mt.dylib /usr/local/lib/libboost_python-mt.dylib
         - cd ~
         - ls -sort
         - ls /usr/local/Cellar/openssl@1.1/
+# echo install libuv
         - git clone https://github.com/libuv/libuv.git
         - cd libuv
         - sh autogen.sh
@@ -70,12 +69,14 @@ jobs:
         - make -j 2
         - sudo make install
         - cd ..
+# install uWebsockets
         - git clone https://github.com/uNetworking/uWebSockets.git
         - cd uWebsockets
         - git checkout c7aa984 # going back to the old non-'clang'-only Makefile
         - make
         - sudo make install
         - cd ..
+# install zfp
         - git clone https://github.com/LLNL/zfp.git
         - cd zfp && mkdir build && cd build
         - cmake ..
@@ -84,14 +85,15 @@ jobs:
         - cd ../..
         - pwd
         - ls -sort
-        - echo "Install carta-backend"
-        - cd $HOME/build/ajm-asiaa/travis_test3
+# build carta-backend
+        - echo "Building carta-backend" 
+        - cd $TRAVIS_BUILD_DIR
         - git submodule init && git submodule update
-        - sed -i '' 's/hdf5_serial/hdf5/g' CMakeLists.txt # Fix for Mac hdf5 serial filename
-        - sed -i '' 's/target_link_libraries(hdf5_image_viewer/target_link_libraries(hdf5_image_viewer uv/g' CMakeLists.txt 
+        - sed -i '' 's/hdf5_serial/hdf5/g' CMakeLists.txt # fix for Mac hdf5 filename
+        - sed -i '' 's/target_link_libraries(hdf5_image_viewer/target_link_libraries(hdf5_image_viewer uv/g' CMakeLists.txt # fix to find uv
         - mkdir build && cd build
-        - cmake -DCMAKE_CXX_FLAGS="-I /usr/local/Cellar/openssl\@1.1/1.1.1/include" -DCMAKE_CXX_STANDARD_LIBRARIES="-L /usr/local/Cellar/fmt/5.1.0/lib -L /usr/local/Cellar/hdf5/1.10.3/lib -L /usr/local/lib -L /usr/local/Cellar/openssl\@1.1/1.1.1/lib" ..
+        - cmake -DCMAKE_CXX_FLAGS="-I /usr/local/Cellar/openssl\@1.1/1.1.1/include" -DCMAKE_CXX_STANDARD_LIBRARIES="-L /usr/local/Cellar/fmt/5.1.0/lib -L /usr/local/Cellar/hdf5/1.10.3/lib -L /usr/local/lib -L /usr/local/Cellar/openssl\@1.1/1.1.1/lib" .. # Might break later when Travis changes version numbers i.e. if default openssl changes to 1.1.2.
         - make
         - ls -sort
-        - ./hdf5_image_viewer
+        - otool -L hdf5_image_viewer
 
