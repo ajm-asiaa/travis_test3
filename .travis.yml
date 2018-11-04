@@ -15,8 +15,8 @@ addons:
 before_install:
    - sudo rm /usr/local/include/c++
    - brew install gcc
-   - brew install openssl tbb fmt protobuf cfitsio wcslib fftw boost-python hdf5
-
+#   - brew install openssl tbb fmt protobuf cfitsio wcslib fftw boost-python hdf5
+   - brew install tbb fmt protobuf cfitsio wcslib fftw boost-python hdf5
 env:
   global:
     - secure: "ptSSAbjx9Oy7Pdy+9/z+g8kx2jX6GCwvbUyOD9EhOZ7JbMgfuoLNmefdBI7+4vNIPxVECtwzs4iwAGq59u0zl32oap6oy+54rVrnaLto0wotDt7u2RSC0xkw+nZL7Y5IUnQm+YD/+4w+r8x2Iolu3ZlaODftAZ1Le1pVeFm4hV7TsG4SqasiGH0Vr/+xHT2be+1DyCzCCKsTiLwmDG4nGBO9a2AJAC6BZapzpHppYACGTM+8ydlSXn439Xno4lyhSgzIp3rQUHqJ4OBU5XoAmikJzSBfuJZshKiQ696utm9hxFHtRzjLUlkkXNhDXKIP7OQ6J8iOX42sStwYhleZdBgnsVtj7f6HdR0kRfROn0qGq44s9uWnnlzyoGBSCTD7liy9zm3XOlVD+55Oas1rihKpz2u214xAMAgMyDC20hdWBxpOdROyAJI32ZRsajC5bQa94dH3MD75vKXsfdUTWxUumDNrgr90qx02+zfMixH7yIXNYAAf0UUS9+REpzkJq4Py/XqLWmdzfZsHaCbsfLaJ/vYFuf4/7ovw/Pm2F2FxllrTVtTQq3dGcPvUPop0cJl1BAoSpzMdS8NjDeCjlr0tZgum2yC87Z+wscjs+bmh3SLQ+MQM/2zWzJJ/pUUhTLKYEUC6LanHqdl/F78NKkGJH2SzpMwJAOrIIo7KZvQ="
@@ -33,11 +33,13 @@ jobs:
     - stage: build casacore
       install: true
       script:
+        - ls /usr/local/opt/openssl/
         - cd $HOME
         - ls
-#        - if [ -e "$HOME/casacore" ]; then echo "casacore cache exists"; else echo "building casacore" && $TRAVIS_BUILD_DIR/scripts/ci_mac_casacore.sh; fi
-        - ls -sort
-        - cd $TRAVIS_BUILD_DIR/scripts
+        - ls $HOME/casacore/
+        - if [ -e "$HOME/casacore/lib" ]; then echo "casacore cache exists"; else echo "building casacore" && $TRAVIS_BUILD_DIR/scripts/ci_mac_casacore.sh; fi
+#        - ls -sort
+#        - cd $TRAVIS_BUILD_DIR/scripts
         - ./ci_mac_casacore.sh
     - stage: build carta-backend
       install: true
@@ -79,7 +81,8 @@ jobs:
         - sed -i '' 's/hdf5_serial/hdf5/g' CMakeLists.txt # fix for Mac hdf5 filename
         - sed -i '' 's/target_link_libraries(hdf5_image_viewer/target_link_libraries(hdf5_image_viewer uv/g' CMakeLists.txt # fix to find uv
         - mkdir build && cd build
-        - cmake -DCMAKE_CXX_FLAGS="-I /usr/local/Cellar/openssl\@1.1/1.1.1/include" -DCMAKE_CXX_STANDARD_LIBRARIES="-L /usr/local/Cellar/fmt/5.1.0/lib -L /usr/local/Cellar/hdf5/1.10.3/lib -L /usr/local/lib -L /usr/local/Cellar/openssl\@1.1/1.1.1/lib" .. # Might break later when Travis changes version numbers i.e. if the current default openssl 1.1.1 changes to 1.1.2.
+#        - cmake -DCMAKE_CXX_FLAGS="-I /usr/local/Cellar/openssl\@1.1/1.1.1/include" -DCMAKE_CXX_STANDARD_LIBRARIES="-L /usr/local/Cellar/fmt/5.1.0/lib -L /usr/local/Cellar/hdf5/1.10.3/lib -L /usr/local/lib -L /usr/local/Cellar/openssl\@1.1/1.1.1/lib" .. # Might break later when Travis changes version numbers i.e. if the current default openssl 1.1.1 changes to 1.1.2.
+        - cmake -DCMAKE_CXX_FLAGS="-I /usr/local/opt/openssl/include" -DCMAKE_CXX_STANDARD_LIBRARIES="-L /usr/local/Cellar/fmt/5.1.0/lib -L /usr/local/Cellar/hdf5/1.10.3/lib -L /usr/local/lib -L /usr/local/Cellar/openssl\@1.1/1.1.1/lib" ..
         - make
         - ls -sort
         - otool -L hdf5_image_viewer
