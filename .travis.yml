@@ -7,6 +7,11 @@ cache:
   directories:
   - $HOME/casacore
 
+addons:
+  apt:
+    packages:
+    - sshpass
+
 before_install:
    - sudo rm /usr/local/include/c++
    - brew install gcc
@@ -19,11 +24,6 @@ env:
     - secure: "CkS/GZxkBRvqXSp0oEp30PIc6G7AgD3b6lVsNImPpnmecV7BfZ062dkE+rriyWqri0TPqaPzQgUurltFdWpbamygRAeOf8Eh8X5mrRH2Db2OUFZBa88OYvPZ6oZgL3OeSkDASLPQxaEVKNLlJ9DWj7W69EufZiXTYxawhZg4rduHTQaDLtUmVGsy/MWpkdu98CGLfcTIhgEdlHn+xK7ERPD00uAogRsTJZHt98/RGF8pYaCr2GWvsKzm3gwiTpbK2/zSf2xeUhdVHhCtspO/hSdGV9Hq+HsKY18vYRsW944bk9vuV0bS5JSZiqR8A6yyIVtuYQD43fyP8D6Na0bYrIqMr72HHd2knNemPynvVIDokbQIWp9VDYflEYIzBMYPvDyeifl6MPK+HBrFvupoBxmiHPfl/md4PnmI9YUYl94ryzuzxzkgLQ9/SPHOZc8HFqMGWDqm6bQe8ZyUiWHLbVo94p7GecmUMwJ1keUW7cC6GGst61NaP/ZTgAOfLpgpBNDxuIeZ8KFqhppPjfT3wYdRujBvvoeR1a9kxsXHBA7QeJgiNWM1aEcapgs3Ec8dZizPzKV3xwvhHV0J8PbtGbe7hdE3IeNdpIVzScUPd1KyiGTEp0sVbjkoqmbzQpHKDEwswaxwf1hCjTu+2hTrHUgSQgdJny3yvagzVrWgeDE="
     - secure: "mFP0Xpy/+3tJcCnmP6s2j/DiE0Jrb3ubmn4z8MWa4iMrYQZrsf8AHoR1Jms+phkksZEg5zfsB8MjhaogxVxU5SJOCtTOivI51OPPt1PdmuVD5/KvoBVc5fwXq+XbW9AHrFNXq2XdEoQRZ/dRf/n/JXUk0lBUFGHjeZLAkjA4ZfCinrF9T2D3CDPrtfcSYSkYb+o3sPcuiIwxVILjMPMqWYetcSoaio2cmW7VeAaf/Cxn+9C8RH54igGf41D1nWDpwSkTdozr3/jNhesselGWhAC/iknHr0lTtF/fMOAKm0JEm1alj0gg2E1o1SPSEpcXfWYlRpschxE6qC3gISc7pIInk/LjhndupkjsWvuWNkIOrIW1ZoHEO8VIOz6V0O2T4Skx9v3ftVbtRa3tzA8X18+VABo70NLKS6v+9koXOLpkuEqSggzik989l08YstlqWg7JSGEEkTOl52TUaYJiRjKhtUB2DDps/oDMmz+9NX9RShelI2SbgqLTlZWlUIj5aVL42n2cnXO7ITnLYBwg0rEdHXorEKaiG45Wfj+BDXdygKwNOpUICtmL3P+MtIP1wzoKsdS83D5mDHmZRDabC9nMJmIUI5n5kuIjEy4XPusd7/I1z1J47NN7lpuQ/MUZP9I8MaM4YF+NhPcpQS2XvGKqaBGeNdKC9sjvselZbug="
     - secure: "OC4hE2UO3kIysJ9e+e4qzwH4X4a22qa+nT//mnq/BsodE/L6H0u4oWFGDZ7e6oYXMF+TCIj5CiBRgIbONPrDNdi2c0FtpSTG84+qHE6VuXBu2mBD3y42BABJVZ00lWdLVJSwdMY1KH2S2DzxtmR0KMHrGvVIk6D/TKK1dapt7Vz63nOzTepuQsqFsCQeZtddbRuJcJr9oPGJgNXlorJpJ0oJj87nASdU0lFWguV3UxotZO743AlSwS9HZ4gNg2d+JWd2cmnilREoeGtys2cp9Gv4DxyybGuEnjRuxGesnacMeTLig23hU9aa80fTFpwL23yyD5gxcA1orGCZSVZAricfPnC1lR5IfR8a3++WqAN3ciz22upcaTq0OMLB4o796rYYwt1ZbMwmFGaJwY7VGrRz87zQrELBj5o002iI3KH3puxpu/kNm6oiorNOFKPeQWfBYQ5gf8rAoGXKEfWd0vGQ8b7Zejr3tjDx4Dk1s65ViMg2k13PvmDNRTMEanQwyRZ2EWmU35tH7U4jSvM0hDcWBih8ouHp5JEF+UF/RUIPUKw5EWkVIaILV1X5MDWpou7f04P9U+X97pQHOsl/on5JC+Fys9eQ7yhFIveXh03iiHa0AP0IFmhuwLYWbcPDKwiCiw2oN1sGTeLooijpugg9gsHgmLz92uONrruswNA="  
-
-addons:
-  apt:
-    packages:
-       - sshpass
 
 global:
   - CI_NODE_TOTAL=2 # speed up the build process so the casacore stage can finish in time
@@ -110,4 +110,5 @@ jobs:
         - tar -czvf package_$TRAVIS_JOB_NUMBER.tar.gz package_$TRAVIS_JOB_NUMBER
         - ls -sort
         - export SSHPASS=$DEPLOY_PASS
+        - brew install sshpass
         - sshpass -e scp -P $DEPLOY_PORT package_$TRAVIS_JOB_NUMBER.tar.gz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
