@@ -40,7 +40,7 @@ jobs:
         - if [ -e "$HOME/casacore/lib" ]; then echo "casacore cache exists"; else echo "building casacore" && $TRAVIS_BUILD_DIR/scripts/ci_mac_casacore.sh; fi
 #        - ls -sort
 #        - cd $TRAVIS_BUILD_DIR/scripts
-        - ./ci_mac_casacore.sh
+#        - ./ci_mac_casacore.sh
     - stage: build carta-backend
       install: true
       script:
