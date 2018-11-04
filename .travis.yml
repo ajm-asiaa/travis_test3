@@ -83,6 +83,7 @@ jobs:
         - cp /usr/local/lib/libuWS.dylib .
         - install_name_tool -change @rpath/libzfp.0.dylib /usr/local/lib/libzfp.0.dylib hdf5_image_viewer
         - otool -L hdf5_image_viewer
+        - cp /usr/local/lib/libzfp.0.dylib .
         - dylibbundler -od -of -b -d ../libs -x hdf5_image_viewer < $TRAVIS_BUILD_DIR/scripts/keyboard_input.txt
         - rm libuWS.dylib
         - otool -L hdf5_image_viewer
