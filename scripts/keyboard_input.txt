@@ -8,3 +8,13 @@
 /usr/local/opt/boost/lib
 /usr/local/opt/boost/lib
 /usr/local/opt/boost/lib
+/usr/local/opt/boost/lib
+/usr/local/opt/boost/lib
+/usr/local/opt/boost/lib
+/usr/local/opt/boost/lib
+/usr/local/opt/boost/lib
+/usr/local/opt/boost/lib
+/usr/local/opt/boost/lib
+/usr/local/opt/boost/lib
+/usr/local/opt/boost/lib
+/usr/local/opt/boost/lib
