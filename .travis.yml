@@ -110,5 +110,5 @@ jobs:
         - tar -czvf package_$TRAVIS_JOB_NUMBER.tar.gz package_$TRAVIS_JOB_NUMBER
         - ls -sort
         - export SSHPASS=$DEPLOY_PASS
-        - brew install sshpass
+        - brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/Formula/sshpass.rb
         - sshpass -e scp -P $DEPLOY_PORT package_$TRAVIS_JOB_NUMBER.tar.gz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
