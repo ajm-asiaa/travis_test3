@@ -7,6 +7,7 @@ osx_image: xcode9.4
 cache:
   directories:
   - $HOME/casacore
+  - $HOME/package
 
 before_install:
    - sudo rm /usr/local/include/c++
@@ -117,8 +118,14 @@ jobs:
         - ls libs/
         - ls etc/
         - cd ..
+        - rm -rf $HOME/package #remove any old cached directory
+        - cp -r package $HOME/ 
 
-        - echo "Upload the package"
+    - stage: build carta-backend
+      install: true
+      script:
+        - cd $HOME 
+        - ls -sort
         - mv package package_$TRAVIS_JOB_NUMBER
         - tar -czvf package_$TRAVIS_JOB_NUMBER.tar.gz package_$TRAVIS_JOB_NUMBER
 
