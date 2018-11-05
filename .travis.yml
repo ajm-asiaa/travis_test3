@@ -108,10 +108,10 @@ jobs:
         - otool -L hdf5_image_viewer
 
         - cd .. && mkdir etc && cd etc
-        - curl -O -L http://alma.asiaa.sinica.edu.tw/_downloads/measures_data.tar.gz
-        - tar -xvf measures_data.tar.gz
-        - rm measures_data.tar.gz
-        - mv measures_data data        
+#        - curl -O -L http://alma.asiaa.sinica.edu.tw/_downloads/measures_data.tar.gz
+#        - tar -xvf measures_data.tar.gz
+#        - rm measures_data.tar.gz
+#        - mv measures_data data        
         - cd ..
         - ls bin/
         - ls libs/
