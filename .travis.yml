@@ -121,8 +121,11 @@ jobs:
         - echo "Upload the package"
         - mv package package_$TRAVIS_JOB_NUMBER
         - tar -czvf package_$TRAVIS_JOB_NUMBER.tar.gz package_$TRAVIS_JOB_NUMBER
-        - export SSHPASS=$DEPLOY_PASS
+
         - brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/Formula/sshpass.rb
-        - sshpass -e scp -o stricthostkeychecking=no -P $DEPLOY_PORT package_$TRAVIS_JOB_NUMBER.tar.gz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+
+        - export SSHPASS=$DEPLOY_PASS        
+#        - sshpass -e scp -o stricthostkeychecking=no -P $DEPLOY_PORT package_$TRAVIS_JOB_NUMBER.tar.gz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+        - sshpass -e scp -o stricthostkeychecking=no -P $DEPLOY_PORT package_$TRAVIS_JOB_NUMBER.tar.gz $DEPLOY_USER@140.109.177.145:$DEPLOY_PATH
         - echo "Finished"
 
