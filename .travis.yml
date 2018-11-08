@@ -110,7 +110,7 @@ jobs:
         - otool -L hdf5_image_viewer
 
         - cd .. && mkdir etc && cd etc
-        - if [ -e "$HOME/measures_data/measures_data.tar.gz" ]; then echo "measures data cache exists"; else echo "downloading measures data" && curl -O -L http://alma.asiaa.sinica.edu.tw/_downloads/measures_data.tar.gz $HOME/measures_data/; fi
+        - if [ -e "$HOME/measures_data/measures_data.tar.gz" ]; then echo "measures data cache exists"; else echo "downloading measures data" && curl -o $HOME/measures_data/measures_data.tar.gz  http://alma.asiaa.sinica.edu.tw/_downloads/measures_data.tar.gz; fi
         - cp $HOME/measures_data/measures_data.tar.gz .
 #        - curl -O -L http://alma.asiaa.sinica.edu.tw/_downloads/measures_data.tar.gz
         - tar -xvf measures_data.tar.gz
