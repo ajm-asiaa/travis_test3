@@ -124,7 +124,7 @@ jobs:
         - rm -rf $HOME/package #remove any old cached directory
         - cp -r package $HOME/ 
 
-    - stage: build carta-backend
+    - stage: upload
       install: true
       script:
         - cd $HOME 
