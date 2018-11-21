@@ -17,17 +17,19 @@ script:
   - git clone https://github.com/juj/emsdk.git
   - cd emsdk
   - git pull
-  - ./emsdk install emscripten-1.38.11
-  - ./emsdk activate emscripten-1.38.11
+  - ./emsdk install emscripten-1.38.14
+  - ./emsdk activate emscripten-1.38.14
   - source ./emsdk_env.sh
   - cd ..
-  - which emcc
+  - emcc --version
+  - npm --version
+  - emcc 
+  - npm
   - ls
   - git clone https://github.com/idia-astro/carta-frontend.git
   - cd carta-frontend
   - git submodule init
   - git submodule update
-  - which emcc 
   - npm install
   - cd wasm_libs
   - ./build_libs.sh
