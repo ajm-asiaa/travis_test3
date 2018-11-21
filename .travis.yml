@@ -14,12 +14,12 @@ addons:
   chrome: stable
 
 script:
-  - brew install llvm
+  - brew install llvm cmake python
   - git clone https://github.com/juj/emsdk.git
   - cd emsdk
   - git pull
-  - ./emsdk install emscripten-1.38.14
-  - ./emsdk activate emscripten-1.38.14
+  - ./emsdk install latest
+  - ./emsdk activate latest
   - source ./emsdk_env.sh
   - cd ..
   - emcc --version
