@@ -6,13 +6,12 @@ osx_image: xcode9.4
 ## build the frontend
 python:
   - 2.7
-language: node_js
-node_js:
-  - node
+#language: node_js
+#node_js:
+#  - node
 
 addons:
   chrome: stable
-
 
 script:
   - git clone https://github.com/juj/emsdk.git
