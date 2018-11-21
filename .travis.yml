@@ -25,7 +25,8 @@ script:
   - emcc --version
   - npm --version
   - emcc 
-  - npm
+  - which emranlib
+  - which ranlib
   - ls
   - git clone https://github.com/idia-astro/carta-frontend.git
   - cd carta-frontend
