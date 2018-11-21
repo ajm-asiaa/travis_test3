@@ -11,11 +11,8 @@ node_js:
 
 sudo: required
 
-services:
-  - docker
-
-before_install:
-  - docker run -dit --name emscripten -v $(pwd):/src trzeci/emscripten:sdk-incoming-64bit bash
+#before_install:
+#  - docker run -dit --name emscripten -v $(pwd):/src trzeci/emscripten:sdk-incoming-64bit bash
 
 script:
   - ls
@@ -23,4 +20,5 @@ script:
   - cd carta-frontned
   - git submodule init
   - git submodule update
-  - docker exec -it emscripten npm install
+  - npm install
+#  - docker exec -it emscripten npm install
