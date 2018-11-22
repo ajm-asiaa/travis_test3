@@ -4,11 +4,12 @@ compiler: clang
 osx_image: xcode10.1
 
 ## build the frontend
-python:
-  - 2.7
-#language: node_js
-#node_js:
-#  - "8"
+#python:
+#  - 2.7
+
+language: node_js
+  node_js:
+    - "8.9.1"
 
 sudo: required
 
@@ -16,8 +17,8 @@ addons:
   chrome: stable
 
 script:
-#  - brew install llvm cmake python2
-  - brew install node
+  - brew install llvm cmake python2
+#  - brew install node
   - git clone https://github.com/juj/emsdk.git
   - cd emsdk
   - git pull
