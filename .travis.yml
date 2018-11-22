@@ -1,7 +1,7 @@
 language: cpp
 os: osx
 compiler: clang
-osx_image: xcode9.3
+osx_image: xcode10.1
 
 ## build the frontend
 python:
@@ -29,8 +29,8 @@ script:
   - emcc 
   - which emranlib
   - which ranlib
-  - sudo mv /usr/bin/ranlib /usr/bin/ranlib-orig
-  - sudo ln -s /Users/travis/build/ajm-asiaa/travis_test3/emsdk/emscripten/1.38.20/emranlib /usr/bin/ranlib
+#  - sudo mv /usr/bin/ranlib /usr/bin/ranlib-orig
+#  - sudo ln -s /Users/travis/build/ajm-asiaa/travis_test3/emsdk/emscripten/1.38.20/emranlib /usr/bin/ranlib
   - ls
   - git clone https://github.com/idia-astro/carta-frontend.git
   - cd carta-frontend
