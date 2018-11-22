@@ -20,8 +20,8 @@ script:
   - git clone https://github.com/juj/emsdk.git
   - cd emsdk
   - git pull
-  - ./emsdk install emscripten-1.38.11
-  - ./emsdk activate emscripten-1.38.11
+  - ./emsdk install emscripten-1.38.14
+  - ./emsdk activate emscripten-1.38.14
   - source ./emsdk_env.sh
   - cd ..
   - emcc --version
