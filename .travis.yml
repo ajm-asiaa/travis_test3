@@ -16,7 +16,7 @@ addons:
   chrome: stable
 
 script:
-  - brew install llvm cmake python
+  - brew install llvm cmake python3
   - git clone https://github.com/juj/emsdk.git
   - cd emsdk
   - git pull
