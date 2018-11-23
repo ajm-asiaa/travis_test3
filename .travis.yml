@@ -17,14 +17,14 @@ addons:
   chrome: stable
 
 script:
-  - brew install llvm #
+  - brew install llvm
 #cmake python2
 #  - brew install node
   - git clone https://github.com/juj/emsdk.git
   - cd emsdk
   - git pull
-  - ./emsdk install emscripten-1.38.14
-  - ./emsdk activate emscripten-1.38.14
+  - ./emsdk install latest #emscripten-1.38.14
+  - ./emsdk activate latest #emscripten-1.38.14
   - source ./emsdk_env.sh
   - cd ..
   - emcc --version
