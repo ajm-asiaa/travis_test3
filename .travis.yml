@@ -27,9 +27,10 @@ script:
   - git clone https://github.com/juj/emsdk.git
   - cd emsdk
   - git pull
-  - ./emsdk install latest #emscripten-1.38.19
-  - ./emsdk activate latest #emscripten-1.38.19
+  - ./emsdk install sdk-1.38.11-64bit #latest #emscripten-1.38.19
+  - ./emsdk activate sdk-1.38.11-64bit #latest #emscripten-1.38.19
   - source ./emsdk_env.sh
+  - ./emsdk --list
   - cd ..
   - emcc --version
   - npm --version
