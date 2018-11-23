@@ -1,7 +1,7 @@
 language: cpp
 os: osx
 compiler: clang
-osx_image: xcode9.1
+osx_image: xcode9.4
 
 ## build the frontend
 python:
