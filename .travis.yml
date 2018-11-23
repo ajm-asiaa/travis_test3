@@ -4,8 +4,8 @@ compiler: clang
 osx_image: xcode10.1
 
 ## build the frontend
-python:
-  - 3.5
+#python:
+#  - 3.5
 #  - 2.7
 
 language: node_js
@@ -18,7 +18,7 @@ addons:
   chrome: stable
 
 script:
-#  - brew install llvm
+  - brew install python@2
 #cmake python2
 #  - brew install node
   - npm config delete prefix
