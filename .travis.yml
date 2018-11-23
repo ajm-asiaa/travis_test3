@@ -4,9 +4,9 @@ compiler: clang
 osx_image: xcode10.1
 
 ## build the frontend
-#python:
+python:
 #  - 3.5
-#  - 2.7
+  - 2.7
 
 language: node_js
 node_js:
