@@ -18,7 +18,8 @@ addons:
   chrome: stable
 
 script:
-  - brew install python@2
+  - brew uninstall python2
+  - brew install python3
 #cmake python2
 #  - brew install node
   - npm config delete prefix
