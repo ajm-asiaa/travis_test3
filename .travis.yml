@@ -10,7 +10,7 @@ python:
 
 language: node_js
 node_js:
-  - "6"
+  - "8"
 
 sudo: required
 
@@ -18,28 +18,13 @@ addons:
   chrome: stable
 
 script:
-#  - brew uninstall --ignore-dependencies python2
-  - pip install --upgrade pip
-#  - brew install python3
-#cmake python2
-#  - brew install node
-  - npm config delete prefix
   - git clone https://github.com/juj/emsdk.git
   - cd emsdk
   - git pull
-  - ./emsdk install sdk-1.38.11-64bit #latest #emscripten-1.38.19
-  - ./emsdk activate sdk-1.38.11-64bit #latest #emscripten-1.38.19
+  - ./emsdk install sdk-1.38.11-64bit
+  - ./emsdk activate sdk-1.38.11-64bit
   - source ./emsdk_env.sh
   - ./emsdk --list
-  - cd ..
-  - emcc --version
-  - npm --version
-  - emcc 
-#  - which emranlib
-#  - which ranlib
-#  - sudo mv /usr/bin/ranlib /usr/bin/ranlib-orig
-#  - sudo ln -s /Users/travis/build/ajm-asiaa/travis_test3/emsdk/emscripten/1.38.20/emranlib /usr/bin/ranlib
-  - ls
   - git clone https://github.com/idia-astro/carta-frontend.git
   - cd carta-frontend
   - git submodule init
@@ -54,6 +39,6 @@ script:
   - cd protobuf
   - ./build_proto.sh
   - cd ..
-  - npm start
+  - npm start &
   - "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --headless --disable-gpu --remote-debugging-port=9222 http://localhost:3000 &"
-
+  - lsof -i :3000
