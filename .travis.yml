@@ -5,7 +5,8 @@ osx_image: xcode10.1
 
 ## build the frontend
 python:
-  - 2.7
+  - 3.5
+#  - 2.7
 
 language: node_js
 node_js:
