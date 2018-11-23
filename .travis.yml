@@ -23,15 +23,15 @@ script:
   - git clone https://github.com/juj/emsdk.git
   - cd emsdk
   - git pull
-  - ./emsdk install emscripten-1.38.15
-  - ./emsdk activate emscripten-1.38.15
+  - ./emsdk install emscripten-1.38.16
+  - ./emsdk activate emscripten-1.38.16
   - source ./emsdk_env.sh
   - cd ..
   - emcc --version
   - npm --version
   - emcc 
-  - which emranlib
-  - which ranlib
+#  - which emranlib
+#  - which ranlib
 #  - sudo mv /usr/bin/ranlib /usr/bin/ranlib-orig
 #  - sudo ln -s /Users/travis/build/ajm-asiaa/travis_test3/emsdk/emscripten/1.38.20/emranlib /usr/bin/ranlib
   - ls
