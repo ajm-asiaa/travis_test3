@@ -205,11 +205,12 @@ jobs:
         - cd $HOME
         - ls
         - cd emsdk
+        - ls -sort
         - source ./emsdk_env.sh
         - cd .. 
-        - ls
-        - cd package/bin
-        - ls
+        - ls -sort
+        - cd package
+        - ls -sort
         - chmod 755 run.sh 
         - ./run.sh &
         - "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --headless --disable-gpu --remote-debugging-port=9222 http://localhost:3000 &"
