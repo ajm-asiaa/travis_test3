@@ -157,7 +157,7 @@ jobs:
         - ls -sort
         - cd package
         - ls
-        - mv package package_$TRAVIS_JOB_NUMBER
+#        - mv package package_$TRAVIS_JOB_NUMBER
        
 #        - tar -czvf package_$TRAVIS_JOB_NUMBER.tar.gz package_$TRAVIS_JOB_NUMBER
 #        - export SSHPASS=$DEPLOY_PASS
