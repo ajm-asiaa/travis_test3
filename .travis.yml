@@ -166,6 +166,7 @@ jobs:
         - echo "Finished !!"
 
     - stage: build frontend
+      install: true
       script:
         - cd $HOME
         - rm -rf emsdk
@@ -196,6 +197,8 @@ jobs:
         - mv carta-frontend carta-frontend-built
 
     - stage: run tests
+      install: true
+      script:
         - cd $HOME
         - ls
         - cd emsdk
