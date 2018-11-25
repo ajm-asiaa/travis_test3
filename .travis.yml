@@ -26,7 +26,7 @@ cache:
 
 before_install:
     - ls /usr/local/include/
-    - ls /usr/local/Cellar/boost-python/
+#    - ls /usr/local/Cellar/boost-python/
 #    - sudo rm /usr/local/include/c++
     - brew install gcc
     - brew install tbb fmt protobuf cfitsio wcslib fftw hdf5
