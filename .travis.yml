@@ -35,8 +35,8 @@ before_install:
 #    - which gfortran
     - brew update > /dev/null
     - brew install gcc || brew link --overwrite gcc
-    - brew install lapack open-mpi > /dev/null
-    - export FC=gfortran
+    - brew link gcc
+#    - export FC=gfortran
     - which gfortran
     - brew install tbb fmt protobuf cfitsio wcslib fftw boost-python hdf5
 # using default system openssl   - brew install openssl
