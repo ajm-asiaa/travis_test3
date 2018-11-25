@@ -13,6 +13,10 @@ mv casacore casacore-src
 
 cd casacore-src && mkdir build && cd build
 
+brew install boost-python
+
+ls /usr/local/Cellar/boost-python/
+
 #Fix so that cmake can find the boost-python library file
 ln -s /usr/local/Cellar/boost-python/1.67.0/lib/libboost_python27-mt.dylib \
       /usr/local/lib/libboost_python-mt.dylib
