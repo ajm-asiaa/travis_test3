@@ -182,6 +182,8 @@ jobs:
         - cd protobuf
         - ./build_proto.sh
         - cd ..
+        - cd ..
+        - ls
         - rm -rf carta-frontend-built
         - mv carta-frontend carta-frontend-built
 
