@@ -1,7 +1,8 @@
 language: cpp
 os: osx
 compiler: clang
-osx_image: xcode9.4
+#osx_image: xcode9.4
+osx_image: xcode10.1
 # If we use "osx_image: xcode10", everything builds, but the executable crashes with "Bus error: 10"
 
 python:
@@ -166,7 +167,6 @@ jobs:
         - ./emsdk install sdk-1.38.11-64bit
         - ./emsdk activate sdk-1.38.11-64bit
         - source ./emsdk_env.sh
-        - ./emsdk --list 
         - cd ..
         - git clone https://github.com/idia-astro/carta-frontend.git
         - cd carta-frontend
@@ -189,6 +189,7 @@ jobs:
 
     - stage: run tests
         - cd $HOME
+        - ls
         - cd emsdk
         - source ./emsdk_env.sh
         - cd .. 
