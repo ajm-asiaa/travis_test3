@@ -29,8 +29,13 @@ before_install:
     - ls /usr/local/include/
 #    - ls /usr/local/Cellar/boost-python/
 #    - sudo rm /usr/local/include/c++
+#    - brew install gcc || brew link --overwrite gcc
+#    - gcc --version
+#    - export FC=gfortran
+#    - which gfortran
+    - brew update > /dev/null
     - brew install gcc || brew link --overwrite gcc
-    - gcc --version
+    - brew install lapack open-mpi > /dev/null
     - export FC=gfortran
     - which gfortran
     - brew install tbb fmt protobuf cfitsio wcslib fftw boost-python hdf5
