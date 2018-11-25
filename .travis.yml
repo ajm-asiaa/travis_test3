@@ -29,9 +29,9 @@ before_install:
     - ls /usr/local/include/
 #    - ls /usr/local/Cellar/boost-python/
 #    - sudo rm /usr/local/include/c++
-    - xcode-select --install
-    - brew install gcc --enable-fortran
+    - brew install gcc
     - gcc --version
+    - export FC=gfortran
     - which gfortran
     - brew install tbb fmt protobuf cfitsio wcslib fftw boost-python hdf5
 # using default system openssl   - brew install openssl
