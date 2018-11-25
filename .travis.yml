@@ -149,14 +149,14 @@ jobs:
         - rm -rf $HOME/package #remove any old cached package directory
         - cp -r package $HOME/
 
-    - stage: upload package
-      install: true
-      script:
-        - echo "Upload the package"
-        - cd $HOME
-        - ls -sort
-        - cd package
-        - ls
+#    - stage: upload package
+#      install: true
+#      script:
+#        - echo "Upload the package"
+#        - cd $HOME
+#        - ls -sort
+#        - cd package
+#        - ls
 #        - mv package package_$TRAVIS_JOB_NUMBER
        
 #        - tar -czvf package_$TRAVIS_JOB_NUMBER.tar.gz package_$TRAVIS_JOB_NUMBER
@@ -166,11 +166,11 @@ jobs:
 
 #        - export SSHPASS=$DEPLOY_PASS
 #        - sshpass -e scp -o stricthostkeychecking=no -P $DEPLOY_PORT package_$TRAVIS_JOB_NUMBER.tar.gz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
-        - echo "Finished !!"
+#        - echo "Finished !!"
 
-    - stage: build frontend
-      install: true
-      script:
+#    - stage: build frontend
+#      install: true
+#      script:
         - cd $HOME
         - rm -rf emsdk
         - git clone https://github.com/juj/emsdk.git
@@ -195,28 +195,32 @@ jobs:
         - ./build_proto.sh
         - cd ..
         - cd ..
-        - ls
-        - rm -rf carta-frontend-built
-        - mv carta-frontend carta-frontend-built
+#        - ls
+#        - rm -rf carta-frontend-built
+#        - mv carta-frontend carta-frontend-built
+#        - cp -r emsdk $HOME/
+#        - cp -r carta-frontend-built $HOME/
 
-    - stage: run tests
-      install: true
-      language: objective-c
-      addons:
-        chrome: beta
-      script:
-        - cd $HOME
-        - ls
-        - cd emsdk
-        - ls -sort
-        - source ./emsdk_env.sh
-        - cd .. 
-        - ls -sort
+#    - stage: run tests
+#      install: true
+#      language: objective-c
+#      addons:
+#        chrome: beta
+#      script:
+#        - cd $HOME
+#        - ls
+#        - cd emsdk
+#        - ls -sort
+#        - source ./emsdk_env.sh
+#        - cd .. 
+#        - ls -sort
         - cd package
         - ls -sort
+        - cd bin
         - chmod 755 run.sh 
         - ./run.sh &
         - "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --headless --disable-gpu --remote-debugging-port=9222 http://localhost:3000 &"
-        - cd carta-frontend-built
+        - cd $HOME/carta-frontend
+        - ls
         - npm run test a
 
