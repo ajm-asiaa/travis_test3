@@ -29,7 +29,7 @@ before_install:
     - ls /usr/local/include/
 #    - ls /usr/local/Cellar/boost-python/
 #    - sudo rm /usr/local/include/c++
-    - brew install gcc
+    - brew install gcc --enable-fortran
     - gcc --version
     - which gfortran
     - brew install tbb fmt protobuf cfitsio wcslib fftw boost-python hdf5
