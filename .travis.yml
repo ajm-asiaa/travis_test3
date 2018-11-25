@@ -29,7 +29,7 @@ before_install:
 #    - ls /usr/local/Cellar/boost-python/
 #    - sudo rm /usr/local/include/c++
     - brew install gcc
-    - brew install tbb fmt protobuf cfitsio wcslib fftw hdf5
+    - brew install tbb fmt protobuf cfitsio wcslib fftw boost-python hdf5
 # using default system openssl   - brew install openssl
 
 env:
@@ -91,12 +91,14 @@ jobs:
         - echo "Building carta-backend" 
         - cd $TRAVIS_BUILD_DIR
         - git submodule init && git submodule update
-        - sed -i '' 's/target_link_libraries(carta_backend/target_link_libraries(carta_backend uv/g' CMakeLists.txt # fix to find uv
+        - sed -i '' 's/hdf5_serial/hdf5/g' CMakeLists.txt # fix for Mac hdf5 filename
+        - sed -i '' 's/target_link_libraries(hdf5_image_viewer/target_link_libraries(hdf5_image_viewer uv/g' CMakeLists.txt # fix to find uv
         - mkdir build && cd build
-        - cmake -DCMAKE_CXX_FLAGS="-I /usr/local/opt/openssl/include" -DCMAKE_CXX_STANDARD_LIBRARIES="-L /usr/local/Cellar/fmt/5.1.0/lib -L /usr/local/Cellar/hdf5/1.10.4/lib -L /usr/local/lib -L /usr/local/opt/openssl/lib" ..
+        - cmake -DCMAKE_CXX_FLAGS="-I /usr/local/opt/openssl/include" -DCMAKE_CXX_STANDARD_LIBRARIES="-L /usr/local/Cellar/fmt/5.2.1/lib -L /usr/local/Cellar/hdf5/1.10.3/lib -L /usr/local/lib -L /usr/local/opt/openssl/lib" ..
         - make
         - ls -sort
-        - otool -L carta_backend
+        - otool -L hdf5_image_viewer
+        - mv hdf5_image_viewer carta_backend
 
         - echo "Package carta-backend"
         # install macdylibbundler
