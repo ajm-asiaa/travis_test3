@@ -217,6 +217,7 @@ jobs:
         - cd package
         - ls -sort
         - cd bin
+        - ls 
         - chmod 755 run.sh 
         - ./run.sh &
         - "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --headless --disable-gpu --remote-debugging-port=9222 http://localhost:3000 &"
