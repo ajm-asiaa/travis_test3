@@ -173,27 +173,27 @@ jobs:
       script:
         - cd $HOME
 #        - rm -rf emsdk
-#        - git clone https://github.com/juj/emsdk.git
-#        - cd emsdk
-#        - git pull
-#        - ./emsdk install sdk-1.38.11-64bit
-#        - ./emsdk activate sdk-1.38.11-64bit
-#        - source ./emsdk_env.sh
-#        - cd ..
-#        - git clone https://github.com/idia-astro/carta-frontend.git
-#        - cd carta-frontend
-#        - git submodule init
-#        - git submodule update
-#        - npm install
-#        - cd wasm_libs
-#        - ./build_libs.sh
-#        - cd ..
-#        - cd wasm_src
-#        - ./build_wrappers.sh
-#        - cd ..
-#        - cd protobuf
-#        - ./build_proto.sh
-#        - cd ..
+        - git clone https://github.com/juj/emsdk.git
+        - cd emsdk
+        - git pull
+        - ./emsdk install sdk-1.38.11-64bit
+        - ./emsdk activate sdk-1.38.11-64bit
+        - source ./emsdk_env.sh
+        - cd $HOME
+        - git clone https://github.com/idia-astro/carta-frontend.git
+        - cd carta-frontend
+        - git submodule init
+        - git submodule update
+        - npm install
+        - cd wasm_libs
+        - ./build_libs.sh
+        - cd ..
+        - cd wasm_src
+        - ./build_wrappers.sh
+        - cd ..
+        - cd protobuf
+        - ./build_proto.sh
+        - cd $HOME
 #        - cd ..
 #        - ls
 #        - rm -rf carta-frontend-built
@@ -217,11 +217,22 @@ jobs:
         - cd package
         - ls -sort
         - cd bin
-        - ls 
+        - sed -i '' 's#folder=$HOME/CARTA/Images# #g' run.sh # temporarily remove defining of images directory
+        - wget http://alma.asiaa.sinica.edu.tw/_downloads/QA.tar.gz
+        - tar -xvf QA.tar.gz
+        - cp -r QA/HD163296_CO_2_1_mom0_zoom.image .
+        - ls -sort
+        - ./run.sh & #run carta-backend in background
+#        - ls 
 #        - chmod 755 run.sh 
 #        - ./run.sh &
 #        - "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --headless --disable-gpu --remote-debugging-port=9222 http://localhost:3000 &"
-#        - cd $HOME/carta-frontend
+        - cd $HOME/carta-frontend/src
+        - rm -rf test # temporarily remove advanced jest tests
+        - rm ICD.test.ts
+        - cp $HOME/package/bin/QA/ICD.test.ts .
+        - npm run test < $TRAVIS_BUILD_DIR/scripts/q.txt
+        
 #        - ls
 #        - npm run test a
 
