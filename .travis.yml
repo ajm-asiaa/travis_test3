@@ -217,7 +217,7 @@ jobs:
         - cd package
         - ls -sort
         - cd bin
-        - sed -i '' 's#folder=$HOME/CARTA/Images# #g' run.sh # temporarily remove defining of images directory
+#        - cp # temporarily remove defining of images directory
         - wget http://alma.asiaa.sinica.edu.tw/_downloads/QA.tar.gz
         - tar -xvf QA.tar.gz
         - cp -r QA/HD163296_CO_2_1_mom0_zoom.image .
