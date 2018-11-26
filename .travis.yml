@@ -168,33 +168,33 @@ jobs:
 #        - sshpass -e scp -o stricthostkeychecking=no -P $DEPLOY_PORT package_$TRAVIS_JOB_NUMBER.tar.gz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
 #        - echo "Finished !!"
 
-#    - stage: build frontend
-#      install: true
-#      script:
+    - stage: build frontend
+      install: true
+      script:
         - cd $HOME
-        - rm -rf emsdk
-        - git clone https://github.com/juj/emsdk.git
-        - cd emsdk
-        - git pull
-        - ./emsdk install sdk-1.38.11-64bit
-        - ./emsdk activate sdk-1.38.11-64bit
-        - source ./emsdk_env.sh
-        - cd ..
-        - git clone https://github.com/idia-astro/carta-frontend.git
-        - cd carta-frontend
-        - git submodule init
-        - git submodule update
-        - npm install
-        - cd wasm_libs
-        - ./build_libs.sh
-        - cd ..
-        - cd wasm_src
-        - ./build_wrappers.sh
-        - cd ..
-        - cd protobuf
-        - ./build_proto.sh
-        - cd ..
-        - cd ..
+#        - rm -rf emsdk
+#        - git clone https://github.com/juj/emsdk.git
+#        - cd emsdk
+#        - git pull
+#        - ./emsdk install sdk-1.38.11-64bit
+#        - ./emsdk activate sdk-1.38.11-64bit
+#        - source ./emsdk_env.sh
+#        - cd ..
+#        - git clone https://github.com/idia-astro/carta-frontend.git
+#        - cd carta-frontend
+#        - git submodule init
+#        - git submodule update
+#        - npm install
+#        - cd wasm_libs
+#        - ./build_libs.sh
+#        - cd ..
+#        - cd wasm_src
+#        - ./build_wrappers.sh
+#        - cd ..
+#        - cd protobuf
+#        - ./build_proto.sh
+#        - cd ..
+#        - cd ..
 #        - ls
 #        - rm -rf carta-frontend-built
 #        - mv carta-frontend carta-frontend-built
@@ -218,10 +218,10 @@ jobs:
         - ls -sort
         - cd bin
         - ls 
-        - chmod 755 run.sh 
-        - ./run.sh &
-        - "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --headless --disable-gpu --remote-debugging-port=9222 http://localhost:3000 &"
-        - cd $HOME/carta-frontend
-        - ls
-        - npm run test a
+#        - chmod 755 run.sh 
+#        - ./run.sh &
+#        - "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --headless --disable-gpu --remote-debugging-port=9222 http://localhost:3000 &"
+#        - cd $HOME/carta-frontend
+#        - ls
+#        - npm run test a
 
