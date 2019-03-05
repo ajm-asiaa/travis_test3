@@ -159,6 +159,7 @@ jobs:
     - stage: run tests
       install: true
       script:
+        - brew install protobuf
 #set up emscripten
         - cd $HOME
         - rm -rf emsdk
