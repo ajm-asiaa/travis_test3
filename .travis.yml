@@ -203,6 +203,9 @@ jobs:
         - npm install
         - ./build_proto.sh
         - cd ..
+        - pwd
+        - ls
+        - ls src/test/
 #        - npm run test < $TRAVIS_BUILD_DIR/scripts/q.txt
         - npm run src/test/ACCESS_CARTA_DEFAULT.test.ts < $TRAVIS_BUILD_DIR/scripts/q.txt
         - echo "Finished !!"
