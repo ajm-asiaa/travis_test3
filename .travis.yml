@@ -140,20 +140,20 @@ jobs:
         - rm -rf $HOME/package #remove any old cached package directory
         - cp -r package $HOME/
 
-    - stage: upload package
-      install: true
-      script:
-        - echo "Upload the package"
-        - cd $HOME
-        - ls -sort
-        - cp -r package package_$TRAVIS_JOB_NUMBER
-        - tar -czvf package_$TRAVIS_JOB_NUMBER.tar.gz package_$TRAVIS_JOB_NUMBER
-        - export SSHPASS=$DEPLOY_PASS
-
-        - brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/Formula/sshpass.rb
-
-        - export SSHPASS=$DEPLOY_PASS
-        - sshpass -e scp -o stricthostkeychecking=no -P $DEPLOY_PORT package_$TRAVIS_JOB_NUMBER.tar.gz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+#    - stage: upload package
+#      install: true
+#      script:
+#        - echo "Upload the package"
+#        - cd $HOME
+#        - ls -sort
+#        - cp -r package package_$TRAVIS_JOB_NUMBER
+#        - tar -czvf package_$TRAVIS_JOB_NUMBER.tar.gz package_$TRAVIS_JOB_NUMBER
+#        - export SSHPASS=$DEPLOY_PASS
+#
+#        - brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/Formula/sshpass.rb
+#
+#        - export SSHPASS=$DEPLOY_PASS
+#        - sshpass -e scp -o stricthostkeychecking=no -P $DEPLOY_PORT package_$TRAVIS_JOB_NUMBER.tar.gz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
 #        - echo "Finished !!"
 
     - stage: run tests
