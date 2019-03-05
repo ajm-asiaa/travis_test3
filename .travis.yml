@@ -203,5 +203,6 @@ jobs:
         - git checkout master
         - ./build_proto.sh
         - cd ..
+        - npm install
         - npm run test < $TRAVIS_BUILD_DIR/scripts/q.txt
         - echo "Finished !!"
