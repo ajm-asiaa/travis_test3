@@ -190,7 +190,7 @@ jobs:
         - ls -sort
         - cd bin
         - ls -sort
-        - sed -i '' 's/carta_backend/carta_backend $HOME\/carta-backend-ICD-test-travis/g' run.sh 
+        - sed -i '' 's/carta_backend/carta_backend base=$HOME\/carta-backend-ICD-test-travis/g' run.sh 
         - ./run.sh & # run carta_backend in the background
         - cd $HOME
         - wget http://alma.asiaa.sinica.edu.tw/_downloads/carta-backend-ICD-test-travis.tar.gz
