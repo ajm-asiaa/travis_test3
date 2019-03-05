@@ -5,7 +5,7 @@ RUN \
   apt-get update && \
   apt-get -y upgrade && \
   apt-get install -y bison build-essential byobu cmake curl default-jre emacs \
-    fftw3-dev flex gdb gcc gfortran git git-lfs htop libblas-dev libboost-all-dev \
+    fftw3-dev flex gdb gcc gfortran git git-lfs htop libblas-dev \
     libcfitsio-dev libfmt-dev libgtest-dev libhdf5-dev liblapack-dev libncurses-dev \
     libprotobuf-dev libreadline-dev libssl-dev libstarlink-ast-dev libtbb-dev \
     man protobuf-compiler python-pip python3-pip software-properties-common \
@@ -38,14 +38,15 @@ RUN \
 RUN \
   git clone https://github.com/casacore/casacore.git && \
   mkdir -p casacore/build && cd casacore/build && \
-  cmake .. -DUSE_FFTW3=ON -DUSE_HDF5=ON -DUSE_THREADS=ON -DUSE_OPENMP=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo && \
-  make -j4 && make install && \
+  cmake .. -DUSE_FFTW3=ON -DUSE_HDF5=ON -DUSE_THREADS=ON -DUSE_OPENMP=ON -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DBoost_NO_BOOST_CMAKE=1 -DBUILD_PYTHON=OFF && \
+  make && make install && \
   cd /root && rm -rf casacore
 
 # uWS
 RUN \
   cd /root && \
   git clone https://github.com/uNetworking/uWebSockets.git && \
+  cd uWebSockets && git checkout v0.14 && cd .. && \
   make default install -C uWebSockets && \
   rm -rf uWebSockets
 
@@ -57,8 +58,8 @@ RUN \
   cmake .. && make all install && \
   cd /root && rm -rf zfp
 
-# Copy hdf5-image-viwer into image (must be in Dockerfile directory)
-COPY hdf5-image-viewer /root/hdf5-image-viewer
+# Copy nrao-carta-backend into image (must be in Dockerfile directory)
+COPY carta-backend /root/carta-backend
 
 # Forward port so that the webapp can properly access it
 # from outside of the container

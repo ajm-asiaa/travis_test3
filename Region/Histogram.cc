@@ -5,30 +5,28 @@
 
 using namespace carta;
 
-Histogram::Histogram(int numBins, float minValue, float maxValue, const casacore::Matrix<float> &cm)
+Histogram::Histogram(int numBins, float minValue, float maxValue, const std::vector<float> &data_)
     : binWidth((maxValue - minValue)/numBins),
       minVal(minValue),
       hist(numBins, 0),
-      chanMatrix(cm)
+      data(data_)
 {}
 
 Histogram::Histogram(Histogram &h, tbb::split)
     : binWidth(h.binWidth),
       minVal(h.minVal),
       hist(h.hist.size(), 0),
-      chanMatrix(h.chanMatrix)
+      data(h.data)
 {}
 
-void Histogram::operator()(const tbb::blocked_range2d<size_t> &r) {
+void Histogram::operator()(const tbb::blocked_range<size_t> &r) {
     std::vector<int> tmp(hist);
-    for (auto j = r.rows().begin(); j != r.rows().end(); ++j) {
-        for (auto i = r.cols().begin(); i != r.cols().end(); ++i) {
-            auto v = chanMatrix(i,j);
-            if (std::isnan(v))
-                continue;
-            int bin = std::max(std::min((int) ((v - minVal) / binWidth), (int)hist.size() - 1), 0);
-            ++tmp[bin];
-        }
+    for (auto i = r.begin(); i != r.end(); ++i) {
+        auto v = data[i];
+        if (std::isnan(v) || std::isinf(v))
+            continue;
+        int bin = std::max(std::min((int) ((v - minVal) / binWidth), (int)hist.size() - 1), 0);
+        ++tmp[bin];
     }
     hist = tmp;
 }

@@ -16,10 +16,10 @@ class Region {
 
 public:
     Region(const std::string& name, const CARTA::RegionType type);
-    ~Region() {};
+    ~Region();
 
     // set Region parameters
-    void setChannels(int minchan, int maxchan, std::vector<int>& stokes);
+    void setChannels(int minchan, int maxchan, const std::vector<int>& stokes);
     void setControlPoints(const std::vector<CARTA::Point>& points);
     void setRotation(const float rotation);
     // get Region parameters
@@ -29,27 +29,29 @@ public:
     bool setHistogramRequirements(const std::vector<CARTA::SetHistogramRequirements_HistogramConfig>& histogramReqs);
     CARTA::SetHistogramRequirements_HistogramConfig getHistogramConfig(int histogramIndex);
     size_t numHistogramConfigs();
-    void fillHistogram(CARTA::Histogram* histogram, const casacore::Matrix<float>& chanMatrix,
-        const size_t chanIndex, const size_t stokesIndex);
+    void getMinMax(float& minVal, float& maxVal, const std::vector<float>& data);
+    void fillHistogram(CARTA::Histogram* histogram, const std::vector<float>& data, const size_t chanIndex,
+        const size_t stokesIndex, const int numBins, const float minVal, const float maxVal);
+    bool getChannelHistogram(CARTA::Histogram* histogram, int channel, int stokes, int numBins);
 
     // Spatial: pass through to RegionProfiler
-    bool setSpatialRequirements(const std::vector<std::string>& profiles,
-        const int nstokes, const int defaultStokes);
+    bool setSpatialRequirements(const std::vector<std::string>& profiles, const int nstokes);
     size_t numSpatialProfiles();
     std::pair<int,int> getSpatialProfileReq(int profileIndex);
     std::string getSpatialProfileStr(int profileIndex);
 
     // Spectral: pass through to RegionProfiler
     bool setSpectralRequirements(const std::vector<CARTA::SetSpectralRequirements_SpectralConfig>& profiles,
-        const int nstokes, const int defaultStokes);
+        const int nstokes);
     size_t numSpectralProfiles();
     bool getSpectralConfigStokes(int& stokes, int profileIndex);
     bool getSpectralConfig(CARTA::SetSpectralRequirements_SpectralConfig& config, int profileIndex);
     void fillProfileStats(int profileIndex, CARTA::SpectralProfileData& profileData, 
         casacore::SubLattice<float>& lattice);
 
-    // Region Stats
+    // Stats: pass through to RegionStats
     void setStatsRequirements(const std::vector<int>& statsTypes);
+    size_t numStats();
     void fillStatsData(CARTA::RegionStatsData& statsData, const casacore::SubLattice<float>& subLattice);
 
 private:

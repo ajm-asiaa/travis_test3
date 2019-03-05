@@ -1,18 +1,6 @@
 #include "OnMessageTask.h"
 #include "util.h"
 #include <algorithm>
-#include <carta-protobuf/close_file.pb.h>
-#include <carta-protobuf/file_info.pb.h>
-#include <carta-protobuf/file_list.pb.h>
-#include <carta-protobuf/open_file.pb.h>
-#include <carta-protobuf/raster_image.pb.h>
-#include <carta-protobuf/region_histogram.pb.h>
-#include <carta-protobuf/region_requirements.pb.h>
-#include <carta-protobuf/register_viewer.pb.h>
-#include <carta-protobuf/set_cursor.pb.h>
-#include <carta-protobuf/set_image_channels.pb.h>
-#include <carta-protobuf/set_image_view.pb.h>
-#include <chrono>
 #include <cstring>
 #include <fmt/format.h>
 
@@ -23,17 +11,17 @@ std::string getEventName(char* rawMessage) {
 }
 
 OnMessageTask::OnMessageTask(std::string uuid_, Session *session_,
-                             tbb::concurrent_queue<std::tuple<std::string,uint32_t,std::vector<char>>> *mqueue_,
-                             carta::AnimationQueue *aqueue_)
+        tbb::concurrent_queue<std::tuple<std::string,uint32_t,std::vector<char>>> *mqueue_,
+        carta::AnimationQueue *aqueue_, carta::FileSettings *fsettings_)
     : uuid(uuid_),
       session(session_),
       mqueue(mqueue_),
-      aqueue(aqueue_)
+      aqueue(aqueue_),
+      fsettings(fsettings_)
 {}
 
 tbb::task* OnMessageTask::execute() {
     //CARTA ICD
-    auto tStart = std::chrono::high_resolution_clock::now();
     std::tuple<std::string,uint32_t,std::vector<char>> msg;
     mqueue->try_pop(msg);
     std::string eventName;
@@ -63,12 +51,13 @@ tbb::task* OnMessageTask::execute() {
     } else if (eventName == "CLOSE_FILE") {
         CARTA::CloseFile message;
         if (message.ParseFromArray(eventPayload.data(), eventPayload.size())) {
+            fsettings->clearSettings(message.file_id());
             session->onCloseFile(message, requestId);
         }
     } else if (eventName == "SET_IMAGE_VIEW") {
         CARTA::SetImageView message;
         if (message.ParseFromArray(eventPayload.data(), eventPayload.size())) {
-            session->onSetImageView(message, requestId);
+            fsettings->executeOne("SET_IMAGE_VIEW", message.file_id());
         }
     } else if (eventName == "SET_IMAGE_CHANNELS") {
         CARTA::SetImageChannels message;
@@ -78,7 +67,7 @@ tbb::task* OnMessageTask::execute() {
     } else if (eventName == "SET_CURSOR") {
         CARTA::SetCursor message;
         if (message.ParseFromArray(eventPayload.data(), eventPayload.size())) {
-            session->onSetCursor(message, requestId);
+            fsettings->executeOne("SET_CURSOR", message.file_id());
         }
     } else if (eventName == "SET_SPATIAL_REQUIREMENTS") {
         CARTA::SetSpatialRequirements message;
@@ -100,11 +89,16 @@ tbb::task* OnMessageTask::execute() {
         if (message.ParseFromArray(eventPayload.data(), eventPayload.size())) {
             session->onSetStatsRequirements(message, requestId);
         }
-    } else {
-        log(uuid, "Unknown event type {}", eventName);
+    } else if (eventName == "SET_REGION") {
+        CARTA::SetRegion message;
+        if (message.ParseFromArray(eventPayload.data(), eventPayload.size())) {
+            session->onSetRegion(message, requestId);
+        }
+    } else if (eventName == "REMOVE_REGION") {
+        CARTA::RemoveRegion message;
+        if (message.ParseFromArray(eventPayload.data(), eventPayload.size())) {
+            session->onRemoveRegion(message, requestId);
+        }
     }
-    auto tEnd = std::chrono::high_resolution_clock::now();
-    auto dt = std::chrono::duration_cast<std::chrono::microseconds>(tEnd - tStart).count();
-    log(uuid, "Operation {} took {}ms", eventName, dt/1e3);
     return nullptr;
 }

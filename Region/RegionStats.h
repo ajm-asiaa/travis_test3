@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include <carta-protobuf/region_requirements.pb.h>  // HistogramConfig
 #include <carta-protobuf/defs.pb.h>  // Histogram, StatisticsValue
+#include <carta-protobuf/region_requirements.pb.h>  // HistogramConfig
 #include <carta-protobuf/region_stats.pb.h>  // RegionStatsData
 
 #include <casacore/casa/Arrays/Matrix.h>
@@ -22,18 +22,21 @@ public:
     bool setHistogramRequirements(const std::vector<CARTA::SetHistogramRequirements_HistogramConfig>& histogramReqs);
     size_t numHistogramConfigs();
     CARTA::SetHistogramRequirements_HistogramConfig getHistogramConfig(int histogramIndex);
-    void fillHistogram(CARTA::Histogram* histogram, const casacore::Matrix<float>& chanMatrix,
-        const size_t chanIndex, const size_t stokesIndex);
+    void getMinMax(float& minVal, float& maxVal, const std::vector<float>& data);
+    void fillHistogram(CARTA::Histogram* histogram, const std::vector<float>& data,
+        const size_t chanIndex, const size_t stokesIndex, const int nBins, const float minVal, const float maxVal);
+    bool getChannelHistogram(CARTA::Histogram* histogram, int channel, int stokes, int numBins);
 
     // Stats
     void setStatsRequirements(const std::vector<int>& statsTypes);
+    size_t numStats();
     void fillStatsData(CARTA::RegionStatsData& statsData, const casacore::SubLattice<float>& subLattice);
     bool getStatsValues(std::vector<std::vector<float>>& statsValues,
         const std::vector<int>& requestedStats, const casacore::SubLattice<float>& lattice);
 
 private:
     // Histograms
-    size_t m_stokes;
+    size_t m_stokes, m_bins;
     std::unordered_map<int, CARTA::Histogram> m_channelHistograms;
     std::vector<CARTA::SetHistogramRequirements_HistogramConfig> m_configs;
 
