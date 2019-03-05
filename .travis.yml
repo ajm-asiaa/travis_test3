@@ -1,9 +1,7 @@
 language: cpp
 os: osx
 compiler: clang
-#osx_image: xcode9.4
 osx_image: xcode10.1
-# If we use "osx_image: xcode10", everything builds, but the executable crashes with "Bus error: 10"
 
 python:
   - 2.7
@@ -11,11 +9,6 @@ python:
 language: node_js
 node_js:
   - "8"
-
-sudo: required
-
-addons:
-  chrome: beta
 
 cache:
   directories:
@@ -27,18 +20,12 @@ cache:
 
 before_install:
     - ls /usr/local/include/
-#    - ls /usr/local/Cellar/boost-python/
 #    - sudo rm /usr/local/include/c++
-#    - brew install gcc || brew link --overwrite gcc
-#    - gcc --version
-#    - export FC=gfortran
-#    - which gfortran
     - brew update > /dev/null
     - brew install gcc || brew link --overwrite gcc
-    - brew link gcc
-#    - export FC=gfortran
+    - brew link gcc # needed to use xcode10
     - which gfortran
-    - brew install tbb fmt protobuf cfitsio wcslib fftw boost-python hdf5
+    - brew install tbb fmt protobuf cfitsio wcslib fftw hdf5
 # using default system openssl   - brew install openssl
 
 env:
@@ -100,14 +87,17 @@ jobs:
         - echo "Building carta-backend" 
         - cd $TRAVIS_BUILD_DIR
         - git submodule init && git submodule update
-        - sed -i '' 's/hdf5_serial/hdf5/g' CMakeLists.txt # fix for Mac hdf5 filename
-        - sed -i '' 's/target_link_libraries(hdf5_image_viewer/target_link_libraries(hdf5_image_viewer uv/g' CMakeLists.txt # fix to find uv
+        - cd protobuf
+        - ls
+        - git submodule init && git submodule update && git checkout master
+        - ls
+        - cd ..
+#        - sed -i '' 's/target_link_libraries(carta_backend/target_link_libraries(carta_backend uv/g' CMakeLists.txt # fix to find uv
         - mkdir build && cd build
-        - cmake -DCMAKE_CXX_FLAGS="-I /usr/local/opt/openssl/include" -DCMAKE_CXX_STANDARD_LIBRARIES="-L /usr/local/Cellar/fmt/5.2.1/lib -L /usr/local/Cellar/hdf5/1.10.3/lib -L /usr/local/lib -L /usr/local/opt/openssl/lib" ..
+        - cmake -DCMAKE_CXX_FLAGS="-I /usr/local/opt/openssl/include" -DCMAKE_CXX_STANDARD_LIBRARIES="-L /usr/local/Cellar/fmt/5.1.0/lib -L /usr/local/Cellar/hdf5/1.10.4/lib -L /usr/local/lib -L /usr/local/opt/openssl/lib" ..
         - make
         - ls -sort
-        - otool -L hdf5_image_viewer
-        - mv hdf5_image_viewer carta_backend
+        - otool -L carta_backend
 
         - echo "Package carta-backend"
         # install macdylibbundler
@@ -149,28 +139,26 @@ jobs:
         - rm -rf $HOME/package #remove any old cached package directory
         - cp -r package $HOME/
 
-#    - stage: upload package
-#      install: true
-#      script:
-#        - echo "Upload the package"
-#        - cd $HOME
-#        - ls -sort
-#        - cd package
-#        - ls
-#        - mv package package_$TRAVIS_JOB_NUMBER
-       
-#        - tar -czvf package_$TRAVIS_JOB_NUMBER.tar.gz package_$TRAVIS_JOB_NUMBER
-#        - export SSHPASS=$DEPLOY_PASS
-
-#        - brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/Formula/sshpass.rb
-
-#        - export SSHPASS=$DEPLOY_PASS
-#        - sshpass -e scp -o stricthostkeychecking=no -P $DEPLOY_PORT package_$TRAVIS_JOB_NUMBER.tar.gz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
-#        - echo "Finished !!"
-
-    - stage: build frontend
+    - stage: upload package
       install: true
       script:
+        - echo "Upload the package"
+        - cd $HOME
+        - ls -sort
+        - cp -r package package_$TRAVIS_JOB_NUMBER
+        - tar -czvf package_$TRAVIS_JOB_NUMBER.tar.gz package_$TRAVIS_JOB_NUMBER
+        - export SSHPASS=$DEPLOY_PASS
+
+        - brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/Formula/sshpass.rb
+
+        - export SSHPASS=$DEPLOY_PASS
+        - sshpass -e scp -o stricthostkeychecking=no -P $DEPLOY_PORT package_$TRAVIS_JOB_NUMBER.tar.gz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+#        - echo "Finished !!"
+
+    - stage: run tests
+      install: true
+      script:
+#set up emscripten
         - cd $HOME
         - rm -rf emsdk
         - git clone https://github.com/juj/emsdk.git
@@ -180,7 +168,8 @@ jobs:
         - ./emsdk activate sdk-1.38.11-64bit
         - source ./emsdk_env.sh
         - cd $HOME
-        - git clone https://github.com/idia-astro/carta-frontend.git
+# prepare frontend
+        - git clone https://github.com/CARTAvis/carta-frontend.git
         - cd carta-frontend
         - git submodule init
         - git submodule update
@@ -193,46 +182,24 @@ jobs:
         - cd ..
         - cd protobuf
         - ./build_proto.sh
+# prepare tests
         - cd $HOME
-#        - cd ..
-#        - ls
-#        - rm -rf carta-frontend-built
-#        - mv carta-frontend carta-frontend-built
-#        - cp -r emsdk $HOME/
-#        - cp -r carta-frontend-built $HOME/
-
-#    - stage: run tests
-#      install: true
-#      language: objective-c
-#      addons:
-#        chrome: beta
-#      script:
-#        - cd $HOME
-#        - ls
-#        - cd emsdk
-#        - ls -sort
-#        - source ./emsdk_env.sh
-#        - cd .. 
-#        - ls -sort
         - cd package
         - ls -sort
         - cd bin
-#        - cp # temporarily remove defining of images directory
-        - wget http://alma.asiaa.sinica.edu.tw/_downloads/QA.tar.gz
-        - tar -xvf QA.tar.gz
-        - cp -r QA/HD163296_CO_2_1_mom0_zoom.image .
         - ls -sort
-        - ./run.sh & #run carta-backend in background
-#        - ls 
-#        - chmod 755 run.sh 
-#        - ./run.sh &
-#        - "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --headless --disable-gpu --remote-debugging-port=9222 http://localhost:3000 &"
-        - cd $HOME/carta-frontend/src
-        - rm -rf test # temporarily remove advanced jest tests
-        - rm ICD.test.ts
-        - cp $HOME/package/bin/QA/ICD.test.ts .
+        - sed -i '' 's/carta_backend/carta_backend $HOME\/carta-backend-ICD-test-travis/g' run.sh 
+        - ./run.sh & # run carta_backend in the background
+        - cd $HOME
+        - wget http://alma.asiaa.sinica.edu.tw/_downloads/carta-backend-ICD-test-travis.tar.gz
+        - tar -xvf carta-backend-ICD-test-travis.tar.gz
+        - cd carta-backend-ICD-test-travis
+        - ls -sort
+        - cd protobuf
+        - git submodule init
+        - git submodule update
+        - git checkout master
+        - ./build_proto.sh
+        - cd ..
         - npm run test < $TRAVIS_BUILD_DIR/scripts/q.txt
-        
-#        - ls
-#        - npm run test a
-
+        - echo "Finished !!"
