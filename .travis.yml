@@ -197,6 +197,7 @@ jobs:
         - tar -xvf carta-backend-ICD-test-travis.tar.gz
         - cd carta-backend-ICD-test-travis
         - ls -sort
+        - npm install
         - cd protobuf
         - git submodule init
         - git submodule update
