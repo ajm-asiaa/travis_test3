@@ -86,8 +86,9 @@ jobs:
         # build carta-backend
         - echo "Building carta-backend" 
         - cd $TRAVIS_BUILD_DIR
+        - ls
         - git submodule init && git submodule update
-        - cd protobuf
+        - cd carta-protobuf
         - ls
         - git submodule init && git submodule update && git checkout master
         - ls
