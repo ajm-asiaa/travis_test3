@@ -87,10 +87,10 @@ jobs:
         - echo "Building carta-backend" 
         - cd $TRAVIS_BUILD_DIR
         - ls
-        - git submodule init && git submodule update
+#        - git submodule init && git submodule update
         - cd carta-protobuf
         - ls
-        - git submodule init && git submodule update && git checkout master
+#        - git submodule init && git submodule update && git checkout master
         - ls
         - cd ..
 #        - sed -i '' 's/target_link_libraries(carta_backend/target_link_libraries(carta_backend uv/g' CMakeLists.txt # fix to find uv
