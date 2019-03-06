@@ -185,13 +185,6 @@ jobs:
         - cd protobuf
         - ./build_proto.sh
 # prepare tests
-#        - cd $HOME
-#        - cd package
-#        - ls -sort
-#        - cd bin
-#        - ls -sort
-#        - sed -i '' 's/carta_backend/carta_backend base=$HOME\/carta-backend-ICD-test-travis/g' run.sh 
-#        - ./run.sh ####& # run carta_backend in the background
         - cd $HOME
         - wget http://alma.asiaa.sinica.edu.tw/_downloads/carta-backend-ICD-test-travis.tar.gz
         - tar -xvf carta-backend-ICD-test-travis.tar.gz
@@ -209,6 +202,5 @@ jobs:
         - pwd
         - ls
         - ls src/test/
-        - CI=true npm test #< $TRAVIS_BUILD_DIR/scripts/q.txt
-#        - npm test src/test/ACCESS_CARTA_DEFAULT.test.ts < $TRAVIS_BUILD_DIR/scripts/q.txt
+        - CI=true npm run test #< $TRAVIS_BUILD_DIR/scripts/q.txt
         - echo "Finished !!"
