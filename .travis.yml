@@ -209,6 +209,6 @@ jobs:
         - pwd
         - ls
         - ls src/test/
-#        - npm test < $TRAVIS_BUILD_DIR/scripts/q.txt
-        - npm test src/test/ACCESS_CARTA_DEFAULT.test.ts < $TRAVIS_BUILD_DIR/scripts/q.txt
+        - CI=true npm test #< $TRAVIS_BUILD_DIR/scripts/q.txt
+#        - npm test src/test/ACCESS_CARTA_DEFAULT.test.ts < $TRAVIS_BUILD_DIR/scripts/q.txt
         - echo "Finished !!"
