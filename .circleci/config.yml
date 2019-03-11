@@ -15,7 +15,7 @@ jobs:
           command: mkdir build && cd build && cmake .. && make && ls && pwd
       - run:
           name: "ICD tests"
-          command: pwd && ls && ps -aux | grep carta_backend 
+          command: cd build && ./carta_backend & && ps -aux | grep carta_backend 
   "centos6":
     docker:
       - image: ajmasiaa/carta-backend-builder-centos6
