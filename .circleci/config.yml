@@ -14,8 +14,11 @@ jobs:
           name: "build ubuntu version"
           command: mkdir build && cd build && cmake .. && make && ls && pwd
       - run:
+          name: "run backend"
+          command: cd build && ./carta_backend
+      - run:
           name: "ICD tests"
-          command: cd build && ./carta_backend & && ps -aux | grep carta_backend 
+          command: ps -aux | grep carta_backend 
   "centos6":
     docker:
       - image: ajmasiaa/carta-backend-builder-centos6
