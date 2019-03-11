@@ -14,11 +14,22 @@ jobs:
           name: "build ubuntu version"
           command: mkdir build && cd build && cmake .. && make && ls && pwd
       - run:
-          name: "run backend"
-          command: cd build && ./carta_backend &
+          name: "run carta_backend in background"
+          command: cd build && ./carta_backend --base &
+      - run:
+          name: "prepare emsdk"
+          command: |
+            git clone https://github.com/emscripten-core/emsdk.git && cd emsdk && git pull
+            ./emsdk install latest
+            ./emsdk activate latest
+            source ./emsdk_env.sh
       - run:
           name: "ICD tests"
-          command: ps -aux | grep carta_backend 
+          command: |
+            wget http://alma.asiaa.sinica.edu.tw/_downloads/carta-backend-ICD-test-travis.tar.gz && tar -xvf carta-backend-ICD-test-travis.tar.gz && carta-backend-ICD-test-travis
+            cd protobuf && git submodule init && git submodule update && git checkout master && npm install && ./build_proto.sh && cd ..
+            npm run test
+            echo "Finished !!"
   "centos6":
     docker:
       - image: ajmasiaa/carta-backend-builder-centos6
