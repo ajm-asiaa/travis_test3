@@ -12,7 +12,10 @@ jobs:
             git submodule update
       - run:
           name: "build ubuntu version"
-          command: mkdir build && cd build && cmake .. && make && ls
+          command: mkdir build && cd build && cmake .. && make && ls && pwd && ./carta_backend &
+      - run:
+          name: "ICD tests"
+          command: ps -aux | grep carta_backend
   "centos6":
     docker:
       - image: ajmasiaa/carta-backend-builder-centos6
