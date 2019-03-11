@@ -15,7 +15,7 @@ jobs:
           command: mkdir build && cd build && cmake .. && make && ls && pwd
       - run:
           name: "run backend"
-          command: cd build && ./carta_backend
+          command: cd build && ./carta_backend &
       - run:
           name: "ICD tests"
           command: ps -aux | grep carta_backend 
