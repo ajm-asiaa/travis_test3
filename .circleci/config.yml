@@ -25,8 +25,10 @@ jobs:
           command: |
             cd emsdk && source ./emsdk_env.sh && cd ..
             which npm
-            cd /root/project && ls -sort
+            cd /root/project && pwd && echo "test" && ls -sort
+            cd /root/project/build && pwd && echo "test2" && ls -sort
             wget http://alma.asiaa.sinica.edu.tw/_downloads/carta-backend-ICD-test-travis.tar.gz && tar -xvf carta-backend-ICD-test-travis.tar.gz
+            echo "test3" && ls -sort
             cd /root/project/build/package/bin && ls -sort && ./run.sh /root/project/carta-backend-ICD-test-travis  &
             cd /root/project/carta-backend-ICD-test-travis/protobuf && git submodule init && git submodule update && git checkout master && npm install && ./build_proto.sh && cd ..
             npm run test
