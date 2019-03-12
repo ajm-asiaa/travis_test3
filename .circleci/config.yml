@@ -12,7 +12,7 @@ jobs:
             git submodule update
       - run:
           name: "build ubuntu version"
-          command: mkdir build && cd build && cmake .. && make && ls && cp /scripts/package_ubuntu.sh . && ls -sort && ./package_ubuntu.sh carta_backend && cd package && ls -sort && pwd
+          command: mkdir build && cd build && cmake .. && make && ls && cp /scripts/package_ubuntu.sh . && ls -sort && ./package_ubuntu.sh carta_backend && cd package/etc && ls -sort && pwd
       - run:
           name: "prepare emsdk"
           command: |
