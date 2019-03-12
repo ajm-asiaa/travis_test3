@@ -28,9 +28,10 @@ jobs:
           command: |
             cd emsdk && source ./emsdk_env.sh && cd ..
             which npm
+            cd /root/project && wget  http://alma.asiaa.sinica.edu.tw/_downloads/measures_data.tar.gz && tar -xvf measures_data.tar.gz && mv measures_data data
             cd /root/project/build && ls -sort
             wget http://alma.asiaa.sinica.edu.tw/_downloads/carta-backend-ICD-test-travis.tar.gz && tar -xvf carta-backend-ICD-test-travis.tar.gz
-            cd /root/project/build && ./carta_backend base=/root/project/build/carta-backend-ICD-test-travis &
+            cd /root/project/build && export CASAPATH="../../../../root/project linux" ./carta_backend base=/root/project/build/carta-backend-ICD-test-travis &
             cd /root/project/build/carta-backend-ICD-test-travis/protobuf && git submodule init && git submodule update && git checkout master && npm install && ./build_proto.sh && cd ..
             npm run test
             echo "Finished !!"
