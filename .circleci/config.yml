@@ -12,7 +12,8 @@ jobs:
             git submodule update
       - run:
           name: "build ubuntu version"
-          command: mkdir build && cd build && cmake .. && make && ls && pwd
+          command: mkdir build && cd build && cmake .. && make && ls && cp /scripts/package_ubuntu.sh . && ./package_ubuntu.sh carta_backend && ls -sort
+           
 #      - run:
 #          name: "run carta_backend in background"
 #          command: cd build && ./carta_backend --base ~/carta-backend-ICD-test-travis.tar.gz &
@@ -28,11 +29,13 @@ jobs:
           command: |
             cd emsdk && source ./emsdk_env.sh && cd ..
             which npm
-            cd /root/project && wget  http://alma.asiaa.sinica.edu.tw/_downloads/measures_data.tar.gz && tar -xvf measures_data.tar.gz && mv measures_data data
-            cd /root/project/build && ls -sort
+#            cd /root/project && wget  http://alma.asiaa.sinica.edu.tw/_downloads/measures_data.tar.gz && tar -xvf measures_data.tar.gz && mv measures_data data
+#            cd /root/project/package/bin && ls && ./run.sh &
+            cd /root/project && ls -sort
             wget http://alma.asiaa.sinica.edu.tw/_downloads/carta-backend-ICD-test-travis.tar.gz && tar -xvf carta-backend-ICD-test-travis.tar.gz
-            cd /root/project/build && export CASAPATH="../../../../root/project linux" ./carta_backend base=/root/project/build/carta-backend-ICD-test-travis &
-            cd /root/project/build/carta-backend-ICD-test-travis/protobuf && git submodule init && git submodule update && git checkout master && npm install && ./build_proto.sh && cd ..
+#            cd /root/project/build && export CASAPATH="../../../../root/project linux" ./carta_backend base=/root/project/build/carta-backend-ICD-test-travis &
+            cd /root/project/package/bin && ls && ./run.sh /root/project/build/carta-backend-ICD-test-travis  &
+            cd /root/project/carta-backend-ICD-test-travis/protobuf && git submodule init && git submodule update && git checkout master && npm install && ./build_proto.sh && cd ..
             npm run test
             echo "Finished !!"
   "centos6":
