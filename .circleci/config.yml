@@ -21,6 +21,10 @@ jobs:
             ./emsdk activate latest
             source ./emsdk_env.sh
       - run:
+          name: "Run Xvfb"
+          command: Xvfb -ac :99 -screen 0 1280x1024x16 +extension RANDR > /dev/null 2>&1
+          background: true
+      - run:
           name: "ICD tests"
           command: |
             cd emsdk && source ./emsdk_env.sh && cd ..
