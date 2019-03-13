@@ -54,7 +54,7 @@ jobs:
       - run:
           name: "prepare emsdk"
           command: |
-            git clone https://github.com/emscripten-core/emsdk.git && cd emsdk && git pull
+            source /etc/bashrc && git clone https://github.com/emscripten-core/emsdk.git && cd emsdk && git pull
             ./emsdk install latest
             ./emsdk activate latest
             source ./emsdk_env.sh
@@ -65,7 +65,7 @@ jobs:
       - run:
           name: "run the ICD tests"
           command: |
-            cd emsdk && source ./emsdk_env.sh && cd ..
+            source /etc/bashrc && cd emsdk && source ./emsdk_env.sh && cd ..
             cd /root/project/build && wget http://alma.asiaa.sinica.edu.tw/_downloads/carta-backend-ICD-test-travis.tar.gz && tar -xvf carta-backend-ICD-test-travis.tar.gz
             cd /root/project/build/package/bin && ./run.sh /root/project/build/carta-backend-ICD-test-travis &
             cd /root/project/build/carta-backend-ICD-test-travis/protobuf && git submodule init && git submodule update && git checkout master && npm install && ./build_proto.sh && cd ..
