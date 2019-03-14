@@ -31,17 +31,17 @@ jobs:
             cd /root/project/build && wget http://alma.asiaa.sinica.edu.tw/_downloads/carta-backend-ICD-test-travis.tar.gz && tar -xvf carta-backend-ICD-test-travis.tar.gz
             cd /root/project/build/package/bin && ./run.sh /root/project/build/carta-backend-ICD-test-travis &
             cd /root/project/build/carta-backend-ICD-test-travis/protobuf && git submodule init && git submodule update && git checkout master && npm install && ./build_proto.sh && cd ..
-            npm run src/test/ACCESS_CARTA_DEFAULT.test.ts
-            npm run src/test/ACCESS_CARTA_DEFAULT_CONCURRENT.test.ts
-            npm run src/test/ACCESS_CARTA_RESUME_SESSION.test.ts
-            npm run src/test/ACCESS_CARTA_UNKNOWN_APIKEY.test.ts
-            npm run src/test/GET_FILELIST.test.ts
-            npm run src/test/FILEINFO.test.ts
-            npm run src/test/FILETYPE_PARSER.test.ts
-            npm run src/test/CHECK_RASTER_IMAGE_DATA_noCompression.test.ts
-            npm run src/test/CURSOR_XY_PROFILE.test.ts
-            npm run src/test/OPEN_IMAGE_MULTIFRAME.test.ts
-            npm run src/test/ANIMATOR_NAVIGATION.test.ts
+            npm test src/test/ACCESS_CARTA_DEFAULT.test.ts
+            npm test src/test/ACCESS_CARTA_DEFAULT_CONCURRENT.test.ts
+            npm test src/test/ACCESS_CARTA_RESUME_SESSION.test.ts
+            npm test src/test/ACCESS_CARTA_UNKNOWN_APIKEY.test.ts
+            npm test src/test/GET_FILELIST.test.ts
+            npm test src/test/FILEINFO.test.ts
+            npm test src/test/FILETYPE_PARSER.test.ts
+            npm test src/test/CHECK_RASTER_IMAGE_DATA_noCompression.test.ts
+            npm test src/test/CURSOR_XY_PROFILE.test.ts
+            npm test src/test/OPEN_IMAGE_MULTIFRAME.test.ts
+            npm test src/test/ANIMATOR_NAVIGATION.test.ts
             echo "Finished !!!"
   "centos6":
     docker:
@@ -79,17 +79,17 @@ jobs:
             cd /root/project/build && wget http://alma.asiaa.sinica.edu.tw/_downloads/carta-backend-ICD-test-travis.tar.gz && tar -xvf carta-backend-ICD-test-travis.tar.gz
             cd /root/project/build/package/bin && ./run.sh /root/project/build/carta-backend-ICD-test-travis &
             cd /root/project/build/carta-backend-ICD-test-travis/protobuf && git submodule init && git submodule update && git checkout master && npm install && ./build_proto.sh && cd ..
-            npm run src/test/ACCESS_CARTA_DEFAULT.test.ts
-            npm run src/test/ACCESS_CARTA_DEFAULT_CONCURRENT.test.ts
-            npm run src/test/ACCESS_CARTA_RESUME_SESSION.test.ts
-            npm run src/test/ACCESS_CARTA_UNKNOWN_APIKEY.test.ts
-            npm run src/test/GET_FILELIST.test.ts
-            npm run src/test/FILEINFO.test.ts
-            npm run src/test/FILETYPE_PARSER.test.ts
-            npm run src/test/CHECK_RASTER_IMAGE_DATA_noCompression.test.ts
-            npm run src/test/CURSOR_XY_PROFILE.test.ts
-            npm run src/test/OPEN_IMAGE_MULTIFRAME.test.ts
-            npm run src/test/ANIMATOR_NAVIGATION.test.ts
+            npm test src/test/ACCESS_CARTA_DEFAULT.test.ts
+            npm test src/test/ACCESS_CARTA_DEFAULT_CONCURRENT.test.ts
+            npm test src/test/ACCESS_CARTA_RESUME_SESSION.test.ts
+            npm test src/test/ACCESS_CARTA_UNKNOWN_APIKEY.test.ts
+            npm test src/test/GET_FILELIST.test.ts
+            npm test src/test/FILEINFO.test.ts
+            npm test src/test/FILETYPE_PARSER.test.ts
+            npm test src/test/CHECK_RASTER_IMAGE_DATA_noCompression.test.ts
+            npm test src/test/CURSOR_XY_PROFILE.test.ts
+            npm test src/test/OPEN_IMAGE_MULTIFRAME.test.ts
+            npm test src/test/ANIMATOR_NAVIGATION.test.ts
             echo "Finished !!!"
 workflows:
   version: 2

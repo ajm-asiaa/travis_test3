@@ -193,15 +193,15 @@ jobs:
         - ./build_proto.sh
         - cd ..
         - ls src/test/
-        - CI=true npm run src/test/ACCESS_CARTA_DEFAULT.test.ts
-        - CI=true npm run src/test/ACCESS_CARTA_DEFAULT_CONCURRENT.test.ts
-        - CI=true npm run src/test/ACCESS_CARTA_RESUME_SESSION.test.ts
-        - CI=true npm run src/test/ACCESS_CARTA_UNKNOWN_APIKEY.test.ts
-        - CI=true npm run src/test/GET_FILELIST.test.ts
-        - CI=true npm run src/test/FILEINFO.test.ts
-        - CI=true npm run src/test/FILETYPE_PARSER.test.ts
-        - CI=true npm run src/test/CHECK_RASTER_IMAGE_DATA_noCompression.test.ts
-        - CI=true npm run src/test/CURSOR_XY_PROFILE.test.ts
-        - CI=true npm run src/test/OPEN_IMAGE_MULTIFRAME.test.ts
-        - CI=true npm run src/test/ANIMATOR_NAVIGATION.test.ts
+        - CI=true npm test src/test/ACCESS_CARTA_DEFAULT.test.ts
+        - CI=true npm test src/test/ACCESS_CARTA_DEFAULT_CONCURRENT.test.ts
+        - CI=true npm test src/test/ACCESS_CARTA_RESUME_SESSION.test.ts
+        - CI=true npm test src/test/ACCESS_CARTA_UNKNOWN_APIKEY.test.ts
+        - CI=true npm test src/test/GET_FILELIST.test.ts
+        - CI=true npm test src/test/FILEINFO.test.ts
+        - CI=true npm test src/test/FILETYPE_PARSER.test.ts
+        - CI=true npm test src/test/CHECK_RASTER_IMAGE_DATA_noCompression.test.ts
+        - CI=true npm test src/test/CURSOR_XY_PROFILE.test.ts
+        - CI=true npm test src/test/OPEN_IMAGE_MULTIFRAME.test.ts
+        - CI=true npm test src/test/ANIMATOR_NAVIGATION.test.ts
         - echo "Finished !!"
