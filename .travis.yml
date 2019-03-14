@@ -86,13 +86,7 @@ jobs:
         # build carta-backend
         - echo "Building carta-backend" 
         - cd $TRAVIS_BUILD_DIR
-        - ls
-#        - git submodule init && git submodule update
-        - cd carta-protobuf
-        - ls
-#        - git submodule init && git submodule update && git checkout master
-        - ls
-        - cd ..
+        - git submodule init && git submodule update
 #        - sed -i '' 's/target_link_libraries(carta_backend/target_link_libraries(carta_backend uv/g' CMakeLists.txt # fix to find uv
         - mkdir build && cd build
         - cmake -DCMAKE_CXX_FLAGS="-I /usr/local/opt/openssl/include" -DCMAKE_CXX_STANDARD_LIBRARIES="-L /usr/local/Cellar/fmt/5.1.0/lib -L /usr/local/Cellar/hdf5/1.10.4/lib -L /usr/local/lib -L /usr/local/opt/openssl/lib" ..
@@ -140,34 +134,33 @@ jobs:
         - rm -rf $HOME/package #remove any old cached package directory
         - cp -r package $HOME/
 
-#    - stage: upload package
-#      install: true
-#      script:
-#        - echo "Upload the package"
-#        - cd $HOME
-#        - ls -sort
-#        - cp -r package package_$TRAVIS_JOB_NUMBER
-#        - tar -czvf package_$TRAVIS_JOB_NUMBER.tar.gz package_$TRAVIS_JOB_NUMBER
-#        - export SSHPASS=$DEPLOY_PASS
-#
-#        - brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/Formula/sshpass.rb
-#
-#        - export SSHPASS=$DEPLOY_PASS
-#        - sshpass -e scp -o stricthostkeychecking=no -P $DEPLOY_PORT package_$TRAVIS_JOB_NUMBER.tar.gz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+    - stage: upload package
+      install: true
+      script:
+        - echo "Upload the package"
+        - cd $HOME
+        - ls -sort
+        - cp -r package package_$TRAVIS_JOB_NUMBER
+        - tar -czvf package_$TRAVIS_JOB_NUMBER.tar.gz package_$TRAVIS_JOB_NUMBER
+        - export SSHPASS=$DEPLOY_PASS
+
+        - brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/Formula/sshpass.rb
+
+        - export SSHPASS=$DEPLOY_PASS
+        - sshpass -e scp -o stricthostkeychecking=no -P $DEPLOY_PORT package_$TRAVIS_JOB_NUMBER.tar.gz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
 #        - echo "Finished !!"
 
     - stage: run tests
       install: true
       script:
-        - brew install protobuf
 #set up emscripten
         - cd $HOME
         - rm -rf emsdk
         - git clone https://github.com/juj/emsdk.git
         - cd emsdk
         - git pull
-        - ./emsdk install latest #sdk-1.38.11-64bit
-        - ./emsdk activate latest #sdk-1.38.11-64bit
+        - ./emsdk install sdk-1.38.11-64bit
+        - ./emsdk activate sdk-1.38.11-64bit
         - source ./emsdk_env.sh
         - cd $HOME
 # prepare frontend
@@ -199,8 +192,16 @@ jobs:
         - npm install
         - ./build_proto.sh
         - cd ..
-        - pwd
-        - ls
         - ls src/test/
-        - CI=true npm run test #< $TRAVIS_BUILD_DIR/scripts/q.txt
+        - CI=true npm run src/test/ACCESS_CARTA_DEFAULT.test.ts
+        - CI=true npm run src/test/ACCESS_CARTA_DEFAULT_CONCURRENT.test.ts
+        - CI=true npm run src/test/ACCESS_CARTA_RESUME_SESSION.test.ts
+        - CI=true npm run src/test/ACCESS_CARTA_UNKNOWN_APIKEY.test.ts
+        - CI=true npm run src/test/GET_FILELIST.test.ts
+        - CI=true npm run src/test/FILEINFO.test.ts
+        - CI=true npm run src/test/FILETYPE_PARSER.test.ts
+        - CI=true npm run src/test/CHECK_RASTER_IMAGE_DATA_noCompression.test.ts
+        - CI=true npm run src/test/CURSOR_XY_PROFILE.test.ts
+        - CI=true npm run src/test/OPEN_IMAGE_MULTIFRAME.test.ts
+        - CI=true npm run src/test/ANIMATOR_NAVIGATION.test.ts
         - echo "Finished !!"
