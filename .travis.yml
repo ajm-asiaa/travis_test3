@@ -86,6 +86,7 @@ jobs:
         # build carta-backend
         - echo "Building carta-backend" 
         - cd $TRAVIS_BUILD_DIR
+        - echo "
         - git submodule init && git submodule update
 #        - sed -i '' 's/target_link_libraries(carta_backend/target_link_libraries(carta_backend uv/g' CMakeLists.txt # fix to find uv
         - mkdir build && cd build
@@ -134,26 +135,9 @@ jobs:
         - rm -rf $HOME/package #remove any old cached package directory
         - cp -r package $HOME/
 
-    - stage: upload package
+    - stage: creat the complete package
       install: true
       script:
-        - echo "Upload the package"
-        - cd $HOME
-        - ls -sort
-        - cp -r package package_$TRAVIS_JOB_NUMBER
-        - tar -czvf package_$TRAVIS_JOB_NUMBER.tar.gz package_$TRAVIS_JOB_NUMBER
-        - export SSHPASS=$DEPLOY_PASS
-
-        - brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/Formula/sshpass.rb
-
-        - export SSHPASS=$DEPLOY_PASS
-        - sshpass -e scp -o stricthostkeychecking=no -P $DEPLOY_PORT package_$TRAVIS_JOB_NUMBER.tar.gz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
-#        - echo "Finished !!"
-
-    - stage: run tests
-      install: true
-      script:
-#set up emscripten
         - cd $HOME
         - rm -rf emsdk
         - git clone https://github.com/juj/emsdk.git
@@ -162,8 +146,10 @@ jobs:
         - ./emsdk install sdk-1.38.11-64bit
         - ./emsdk activate sdk-1.38.11-64bit
         - source ./emsdk_env.sh
+        - npm install electron-packager -g
+        - npm install electron-installer-dmg -g
         - cd $HOME
-# prepare frontend
+        - echo "Prepare the frontend"
         - git clone https://github.com/CARTAvis/carta-frontend.git
         - cd carta-frontend
         - git submodule init
@@ -177,21 +163,73 @@ jobs:
         - cd ..
         - cd protobuf
         - ./build_proto.sh
+        - cp $TRAVIS_BUILD_DIR/scripts/.env_local .
+        - npm run build
+        - cd build
+        - curl -o  http://alma.asiaa.sinica.edu.tw/_downloads/assets.tar.gz && tar -xvf assets.tar.gz && rm assets.tar.gz
+        - ls -sort
+        - cp -r $HOME/package .
+        - ls -sort
+        - mv package carta-backend
+        - electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds
+        - electron-installer-dmg --icon=assets/icons/mac/icon.icns release-builds/
+        - brew install tree
+        - tree release-builds
+#        - echo "Upload the package"
+#        - cd $HOME
+#        - ls -sort
+#        - cp -r package MacOS_backend_$TRAVIS_COMMIT
+#        - tar -czvf MacOS_backend_$TRAVIS_COMMIT.tar.gz MacOS_backend_$TRAVIS_COMMIT
+#        - export SSHPASS=$DEPLOY_PASS
+
+#        - brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/Formula/sshpass.rb
+
+#        - export SSHPASS=$DEPLOY_PASS
+#        - sshpass -e scp -o stricthostkeychecking=no -P $DEPLOY_PORT MacOS_backend_$TRAVIS_COMMIT.tar.gz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+#        - echo "Finished !!"
+
+#    - stage: run tests
+#      install: true
+#      script:
+#set up emscripten
+#        - cd $HOME
+#        - rm -rf emsdk
+#        - git clone https://github.com/juj/emsdk.git
+#        - cd emsdk
+#        - git pull
+#        - ./emsdk install sdk-1.38.11-64bit
+#        - ./emsdk activate sdk-1.38.11-64bit
+#        - source ./emsdk_env.sh
+#        - cd $HOME
+# prepare frontend
+#        - git clone https://github.com/CARTAvis/carta-frontend.git
+#        - cd carta-frontend
+#        - git submodule init
+#        - git submodule update
+#        - npm install
+#        - cd wasm_libs
+#        - ./build_libs.sh
+#        - cd ..
+#        - cd wasm_src
+#        - ./build_wrappers.sh
+#        - cd ..
+#        - cd protobuf
+#        - ./build_proto.sh
 # prepare tests
-        - cd $HOME
-        - wget http://alma.asiaa.sinica.edu.tw/_downloads/carta-backend-ICD-test-travis.tar.gz
-        - tar -xvf carta-backend-ICD-test-travis.tar.gz
-        - cd $HOME/package/bin
-        - sed -i '' 's/carta_backend/carta_backend base=$HOME\/carta-backend-ICD-test-travis/g' run.sh
-        - ./run.sh & # run carta_backend in the background
-        - cd $HOME/carta-backend-ICD-test-travis
-        - cd protobuf
-        - git submodule init
-        - git submodule update
-        - git checkout master
-        - npm install
-        - ./build_proto.sh
-        - cd ..
-        - ls src/test/
-        - ./run-travis.sh
+#        - cd $HOME
+#        - wget http://alma.asiaa.sinica.edu.tw/_downloads/carta-backend-ICD-test-travis.tar.gz
+#        - tar -xvf carta-backend-ICD-test-travis.tar.gz
+#        - cd $HOME/package/bin
+#        - sed -i '' 's/carta_backend/carta_backend base=$HOME\/carta-backend-ICD-test-travis/g' run.sh
+#        - ./run.sh & # run carta_backend in the background
+#        - cd $HOME/carta-backend-ICD-test-travis
+#        - cd protobuf
+#        - git submodule init
+#        - git submodule update
+#        - git checkout master
+#        - npm install
+#        - ./build_proto.sh
+#        - cd ..
+#        - ls src/test/
+#        - ./run-travis.sh
         - echo "Finished !!"
