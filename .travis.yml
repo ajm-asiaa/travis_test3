@@ -172,7 +172,13 @@ jobs:
         - ls -sort
         - mv package carta-backend
         - electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds
-        - electron-installer-dmg --icon=assets/icons/mac/icon.icns release-builds/
+        - electron-installer-dmg --icon=assets/icons/mac/icon.icns release-builds/carta-frontend-darwin-x64/carta-frontend.app
+        - ls -sort
         - brew install tree
         - tree release-builds
+        - export SSHPASS=$DEPLOY_PASS
+        - brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/Formula/sshpass.rb
+        - export SSHPASS=$DEPLOY_PASS
+        - sshpass -e scp -o stricthostkeychecking=no -P $DEPLOY_PORT carta-frontend.dmg $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+#        - echo "Finished !!"
         - echo "Finished !!"
