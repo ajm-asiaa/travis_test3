@@ -187,6 +187,8 @@ jobs:
         - export SSHPASS=$DEPLOY_PASS
         - brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/Formula/sshpass.rb
         - export SSHPASS=$DEPLOY_PASS
-        - sshpass -e scp -o stricthostkeychecking=no -P $DEPLOY_PORT CARTA-$TRAVIS_TAG.dmg $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+        - ls -sort
+#        - sshpass -e scp -o stricthostkeychecking=no -P $DEPLOY_PORT CARTA-$TRAVIS_TAG.dmg $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+        - sshpass -e scp -o stricthostkeychecking=no -P $DEPLOY_PORT main.js $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
 #        - echo "Finished !!"
         - echo "Finished !!"
