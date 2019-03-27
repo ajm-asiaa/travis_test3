@@ -1,4 +1,4 @@
-language: cpp
+language: cpp/se/
 os: osx
 compiler: clang
 osx_image: xcode10.1
@@ -137,6 +137,8 @@ jobs:
     - stage: create the complete package
       install: true
       script:
+        - export TRAVIS_TAG="release-$(git rev-parse --short ${TRAVIS_COMMIT})"
+        - echo "$TRAVIS_TAG"
         - cd $HOME
         - rm -rf emsdk
         - git clone https://github.com/juj/emsdk.git
@@ -167,18 +169,21 @@ jobs:
         - npm run build
         - cd build
         - wget http://alma.asiaa.sinica.edu.tw/_downloads/assets.tar.gz && tar -xvf assets.tar.gz && rm assets.tar.gz
-        - ls -sort
+        - cp $TRAVIS_BUILD_DIR/scripts/main.js .
+        - cp $TRAVIS_BUILD_DIR/scripts/package.json .
         - cp -r $HOME/package .
         - ls -sort
         - mv package carta-backend
+        - sed -i '' "s/XXXX/$TRAVIS_TAG/g" package.json
+        - meteor npm install
         - electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds
-        - electron-installer-dmg --icon=assets/icons/mac/icon.icns release-builds/carta-frontend-darwin-x64/carta-frontend.app
+        - electron-installer-dmg --icon=assets/icons/mac/icon.icns release-builds/CARTA-$TRAVIS_TAG-darwin-x64/CARTA-$TRAVIS_TAG.app
         - ls -sort
         - brew install tree
         - tree release-builds
         - export SSHPASS=$DEPLOY_PASS
         - brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/Formula/sshpass.rb
         - export SSHPASS=$DEPLOY_PASS
-        - sshpass -e scp -o stricthostkeychecking=no -P $DEPLOY_PORT carta-frontend.dmg $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+        - sshpass -e scp -o stricthostkeychecking=no -P $DEPLOY_PORT CARTA-$TRAVIS_TAG.dmg $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
 #        - echo "Finished !!"
         - echo "Finished !!"
