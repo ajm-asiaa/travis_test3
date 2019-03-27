@@ -140,6 +140,8 @@ jobs:
         - export TRAVIS_TAG="release-$(git rev-parse --short ${TRAVIS_COMMIT})"
         - echo "$TRAVIS_TAG"
         - cd $HOME
+        - curl https://install.meteor.com | /bin/sh
+        - export PATH=$HOME/.meteor:$PATH
         - rm -rf emsdk
         - git clone https://github.com/juj/emsdk.git
         - cd emsdk
@@ -153,10 +155,11 @@ jobs:
         - echo "Prepare the frontend"
         - git clone https://github.com/CARTAvis/carta-frontend.git
         - cd carta-frontend
+        - git checkout 
         - cp $TRAVIS_BUILD_DIR/scripts/tslint.json .
         - git submodule init
         - git submodule update
-        - npm install
+        - CI=false npm install
         - cd wasm_libs
         - ./build_libs.sh
         - cd ..
@@ -166,7 +169,7 @@ jobs:
         - cd protobuf
         - ./build_proto.sh
         - cp $TRAVIS_BUILD_DIR/scripts/.env_local .
-        - npm run build
+        - CI=false npm run build
         - cd build
         - wget http://alma.asiaa.sinica.edu.tw/_downloads/assets.tar.gz && tar -xvf assets.tar.gz && rm assets.tar.gz
         - cp $TRAVIS_BUILD_DIR/scripts/main.js .
@@ -175,7 +178,7 @@ jobs:
         - ls -sort
         - mv package carta-backend
         - sed -i '' "s/XXXX/$TRAVIS_TAG/g" package.json
-        - meteor npm install
+        - CI=false meteor npm install
         - electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds
         - electron-installer-dmg --icon=assets/icons/mac/icon.icns release-builds/CARTA-$TRAVIS_TAG-darwin-x64/CARTA-$TRAVIS_TAG.app
         - ls -sort
