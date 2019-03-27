@@ -137,7 +137,7 @@ jobs:
     - stage: create the complete package
       install: true
       script:
-        - export TRAVIS_TAG="release-$(git rev-parse --short ${TRAVIS_COMMIT})"
+        - export TRAVIS_TAG="$(git rev-parse --short ${TRAVIS_COMMIT})"
         - echo "$TRAVIS_TAG"
         - cd $HOME
         - curl https://install.meteor.com | /bin/sh
@@ -180,10 +180,10 @@ jobs:
         - sed -i '' "s/XXXX/$TRAVIS_TAG/g" package.json
         - CI=false meteor npm install
         - electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds
-        - electron-installer-dmg --icon=assets/icons/mac/icon.icns release-builds/CARTA-$TRAVIS_TAG-darwin-x64/CARTA-$TRAVIS_TAG.app
-        - ls -sort
         - brew install tree
         - tree release-builds
+        - electron-installer-dmg --icon=assets/icons/mac/icon.icns release-builds/CARTA-$TRAVIS_TAG-darwin-x64/CARTA-$TRAVIS_TAG-darwin-x64.app
+        - ls -sort
         - export SSHPASS=$DEPLOY_PASS
         - brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/Formula/sshpass.rb
         - export SSHPASS=$DEPLOY_PASS
