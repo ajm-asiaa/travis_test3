@@ -182,7 +182,7 @@ jobs:
         - electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds
         - brew install tree
         - tree release-builds
-        - electron-installer-dmg --icon=assets/icons/mac/icon.icns release-builds/CARTA-$TRAVIS_TAG-darwin-x64/CARTA-$TRAVIS_TAG-darwin-x64.app CARTA-$TRAVIS_TAG
+        - electron-installer-dmg --icon=assets/icons/mac/icon.icns release-builds/CARTA-$TRAVIS_TAG-darwin-x64/CARTA-$TRAVIS_TAG.app CARTA-$TRAVIS_TAG
         - ls -sort
         - export SSHPASS=$DEPLOY_PASS
         - brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/Formula/sshpass.rb
