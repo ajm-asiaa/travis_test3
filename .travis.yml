@@ -42,5 +42,7 @@ jobs:
     - echo $DEPLOY_HOST
     - echo $DEPLOY_PATH  
     - ls -sort
+    - brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/Formula/sshpass.rb
+    - export SSHPASS=$DEPLOY_PASS
     - sshpass -e scp -o stricthostkeychecking=no -P $DEPLOY_PORT assets.tar.gz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
     - echo "Finished !!"
