@@ -42,7 +42,8 @@ jobs:
     - echo $DEPLOY_HOST
     - echo $DEPLOY_PATH  
     - ls -sort
-    - export SHORT_COMMIT_ID="$(git rev-parse --short ${TRAVIS_COMMIT})"
+#    - export SHORT_COMMIT_ID="$(git rev-parse --short ${TRAVIS_COMMIT})"
+    - export SHORT_COMMIT_ID=$TRAVIS_COMMIT:0:8
     - echo "$SHORT_COMMIT_ID"
     - mv assets.tar.gz MacOS_backend_$TRAVIS_JOB_NUMBER_$SHORT_COMMIT_ID.tar.gz
     - ls -sort
