@@ -36,6 +36,10 @@ jobs:
     script:
     - wget http://alma.asiaa.sinica.edu.tw/_downloads/assets.tar.gz
     - export SSHPASS=$DEPLOY_PASS
+    - echo $DEPLOY_PORT
+    - echo $DEPLOY_USER
+    - echo $DEPLOY_HOST
+    - echo $DEPLOY_PATH  
     - ls -sort
     - sshpass -e scp -o stricthostkeychecking=no -P $DEPLOY_PORT assets.tar.gz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
     - echo "Finished !!"
