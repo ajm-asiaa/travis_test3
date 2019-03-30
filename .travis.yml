@@ -43,12 +43,13 @@ jobs:
     - echo $DEPLOY_PATH  
     - ls -sort
 #    - export SHORT_COMMIT_ID="$(git rev-parse --short ${TRAVIS_COMMIT})"
-    - export SHORT_COMMIT_ID = $TRAVIS_COMMIT | cut -c 1-8
+#    - export SHORT_COMMIT_ID = $TRAVIS_COMMIT | cut -c 1-8
+    - SHORT_COMMIT_ID=$(git rev-parse --short ${TRAVIS_COMMIT})
     - echo "$SHORT_COMMIT_ID"
-    - mv assets.tar.gz MacOS_backend_$TRAVIS_JOB_NUMBER_$SHORT_COMMIT_ID.tar.gz
+    - mv assets.tar.gz MacOS_backend_$SHORT_COMMIT_ID.tar.gz
     - ls -sort
     - export SSHPASS=$DEPLOY_PASS
     - brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/Formula/sshpass.rb
     - export SSHPASS=$DEPLOY_PASS
-    - sshpass -e scp -o stricthostkeychecking=no -P $DEPLOY_PORT MacOS_backend_$TRAVIS_JOB_NUMBER_$SHORT_COMMIT_ID.tar.gz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+    - sshpass -e scp -o stricthostkeychecking=no -P $DEPLOY_PORT MacOS_backend_$SHORT_COMMIT_ID.tar.gz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
     - echo "Finished !!"
